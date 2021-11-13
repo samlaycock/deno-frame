@@ -31,9 +31,13 @@ function config(values: EnvValues): void {
           (parser as string).slice(1)
         }`;
 
-        // deno-lint-ignore ban-types
-        parsedValue = (parsers as Record<string, Function>)
-          [parserFunc as string](rawValue);
+        try {
+          // deno-lint-ignore ban-types
+          parsedValue = (parsers as Record<string, Function>)
+            [parserFunc as string](rawValue);
+        } catch (error) {
+          throw new Error(`"${key}" ${error.message}`);
+        }
       } else if (typeof parser === "object" && !Array.isArray(parser)) {
         const { as: parserType, required, ...options } = parser;
 
@@ -55,9 +59,13 @@ function config(values: EnvValues): void {
           (parserType as string).charAt(0).toUpperCase()
         }${(parserType as string).slice(1)}`;
 
-        // deno-lint-ignore ban-types
-        parsedValue = (parsers as Record<string, Function>)
-          [parserFunc as string](rawValue, { ...options });
+        try {
+          // deno-lint-ignore ban-types
+          parsedValue = (parsers as Record<string, Function>)
+            [parserFunc as string](rawValue, { ...options });
+        } catch (error) {
+          throw new Error(`"${key}" ${error.message}`);
+        }
       } else {
         throw new Error(`'parser' for "${key}" must be a string or an array`);
       }
@@ -92,10 +100,14 @@ function get(
         (options.parse as string).charAt(0).toUpperCase()
       }${(options.parse as string).slice(1)}`;
 
-      // deno-lint-ignore ban-types
-      return (parsers as Record<string, Function>)[parserFunc as string](
-        value,
-      );
+      try {
+        // deno-lint-ignore ban-types
+        return (parsers as Record<string, Function>)[parserFunc as string](
+          value,
+        );
+      } catch (error) {
+        throw new Error(`"${key}" ${error.message}`);
+      }
     }
 
     const { as: parserType, required, ...parserOptions } = options.parse;
@@ -118,11 +130,15 @@ function get(
       (parserType as string).slice(1)
     }`;
 
-    // deno-lint-ignore ban-types
-    return (parsers as Record<string, Function>)[parserFunc as string](
-      value,
-      { ...parserOptions },
-    );
+    try {
+      // deno-lint-ignore ban-types
+      return (parsers as Record<string, Function>)[parserFunc as string](
+        value,
+        { ...parserOptions },
+      );
+    } catch (error) {
+      throw new Error(`"${key}" ${error.message}`);
+    }
   }
 
   return value;
