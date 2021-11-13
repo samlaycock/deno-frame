@@ -8,7 +8,7 @@ fmt:
 	deno fmt
 
 test:
-	deno test --allow-env --allow-read --fail-fast --coverage=.cov_profile $(module)
+	deno test --allow-env --allow-read --fail-fast --coverage=.cov_profile lib/$(module)
 
 coverage:
 	deno coverage .cov_profile
