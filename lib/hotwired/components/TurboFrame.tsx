@@ -7,7 +7,7 @@ import {
 } from "../types.d.ts";
 
 interface TurboFrameProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   id: string;
   src?: string;
   target?: TurboFrameTarget;
