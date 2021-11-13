@@ -2,6 +2,7 @@ import { React } from "./deps.ts";
 import render from "./render.ts";
 import TurboFrame from "./components/TurboFrame.tsx";
 import TurboLink from "./components/TurboLink.tsx";
+import TurboScripts from "./components/TurboScripts.tsx";
 import TurboStream from "./components/TurboStream.tsx";
 import {
   TURBO_LINK_ACTIONS,
@@ -30,6 +31,7 @@ export {
   TURBO_STREAM_MIME_TYPE,
   TurboFrame,
   TurboLink,
+  TurboScripts,
   TurboStream,
 };
 
