@@ -1,4 +1,4 @@
-# Frame Deno Framework <!-- omit in toc -->
+# Frame (the Deno "Framework") <!-- omit in toc -->
 
 ## Contents
 
