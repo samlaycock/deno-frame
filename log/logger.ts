@@ -22,17 +22,17 @@ export function info(...args: Array<string | LoggerOptions>): void {
 
       if (namespace) {
         (drivers[driver as LogDriverType || logDriver] as LogDriver).log(
-          `[${namespace}] ${INFO_PREFIX} - `,
+          `[${namespace}] ${INFO_PREFIX} -`,
           ...args,
         );
       } else {
         (drivers[driver as LogDriverType || logDriver] as LogDriver).log(
-          `${INFO_PREFIX} - `,
+          `${INFO_PREFIX} -`,
           ...args,
         );
       }
     } else {
-      (drivers[logDriver] as LogDriver).log(`${INFO_PREFIX} - `, ...args);
+      (drivers[logDriver] as LogDriver).log(`${INFO_PREFIX} -`, ...args);
     }
   }
 }
@@ -51,17 +51,17 @@ export function debug(...args: Array<string | LoggerOptions>): void {
 
       if (namespace) {
         (drivers[driver as LogDriverType || logDriver] as LogDriver).log(
-          `[${namespace}] ${DEBUG_PREFIX} - `,
+          `[${namespace}] ${DEBUG_PREFIX} -`,
           ...args,
         );
       } else {
         (drivers[driver as LogDriverType || logDriver] as LogDriver).log(
-          `${DEBUG_PREFIX} - `,
+          `${DEBUG_PREFIX} -`,
           ...args,
         );
       }
     } else {
-      (drivers[logDriver] as LogDriver).log(`${DEBUG_PREFIX} - `, ...args);
+      (drivers[logDriver] as LogDriver).log(`${DEBUG_PREFIX} -`, ...args);
     }
   }
 }
@@ -80,17 +80,17 @@ export function warn(...args: Array<string | LoggerOptions>): void {
 
       if (namespace) {
         (drivers[driver as LogDriverType || logDriver] as LogDriver).log(
-          `[${namespace}] ${WARN_PREFIX} - `,
+          `[${namespace}] ${WARN_PREFIX} -`,
           ...args,
         );
       } else {
         (drivers[driver as LogDriverType || logDriver] as LogDriver).log(
-          `${WARN_PREFIX} - `,
+          `${WARN_PREFIX} -`,
           ...args,
         );
       }
     } else {
-      (drivers[logDriver] as LogDriver).log(`${WARN_PREFIX} - `, ...args);
+      (drivers[logDriver] as LogDriver).log(`${WARN_PREFIX} -`, ...args);
     }
   }
 }
@@ -109,17 +109,17 @@ export function error(...args: Array<string | LoggerOptions>): void {
 
       if (namespace) {
         (drivers[driver as LogDriverType || logDriver] as LogDriver).log(
-          `[${namespace}] ${ERROR_PREFIX} - `,
+          `[${namespace}] ${ERROR_PREFIX} -`,
           ...args,
         );
       } else {
         (drivers[driver as LogDriverType || logDriver] as LogDriver).log(
-          `${ERROR_PREFIX} - `,
+          `${ERROR_PREFIX} -`,
           ...args,
         );
       }
     } else {
-      (drivers[logDriver] as LogDriver).log(`${ERROR_PREFIX} - `, ...args);
+      (drivers[logDriver] as LogDriver).log(`${ERROR_PREFIX} -`, ...args);
     }
   }
 }

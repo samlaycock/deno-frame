@@ -35,7 +35,7 @@ Deno.test("debug() should log only when FRAME_LOG_LEVEL is debug, warn or error"
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[0]?.args,
-    [`${DEBUG_PREFIX} - `, "test"],
+    [`${DEBUG_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[0]
         ?.args.join(", ")
@@ -50,7 +50,7 @@ Deno.test("debug() should log only when FRAME_LOG_LEVEL is debug, warn or error"
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[1]?.args,
-    [`${DEBUG_PREFIX} - `, "test"],
+    [`${DEBUG_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[1]
         ?.args.join(", ")
@@ -65,7 +65,7 @@ Deno.test("debug() should log only when FRAME_LOG_LEVEL is debug, warn or error"
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[2]?.args,
-    [`${DEBUG_PREFIX} - `, "test"],
+    [`${DEBUG_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[2]
         ?.args.join(", ")
@@ -118,7 +118,7 @@ Deno.test("debug() should log only when LOG_LEVEL is debug, warn or error", () =
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[0]?.args,
-    [`${DEBUG_PREFIX} - `, "test"],
+    [`${DEBUG_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[0]
         ?.args.join(", ")
@@ -133,7 +133,7 @@ Deno.test("debug() should log only when LOG_LEVEL is debug, warn or error", () =
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[1]?.args,
-    [`${DEBUG_PREFIX} - `, "test"],
+    [`${DEBUG_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[1]
         ?.args.join(", ")
@@ -148,7 +148,7 @@ Deno.test("debug() should log only when LOG_LEVEL is debug, warn or error", () =
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[2]?.args,
-    [`${DEBUG_PREFIX} - `, "test"],
+    [`${DEBUG_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[2]
         ?.args.join(", ")
@@ -187,7 +187,7 @@ Deno.test("debug() should log correctly when given a namespace argument", () => 
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[0]?.args,
-    [`[${namespace}] ${DEBUG_PREFIX} - `, "test"],
+    [`[${namespace}] ${DEBUG_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[0]
         ?.args.join(", ")
@@ -211,7 +211,7 @@ Deno.test("error() should log only when FRAME_LOG_LEVEL is not none", () => {
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[0]?.args,
-    [`${ERROR_PREFIX} - `, "test"],
+    [`${ERROR_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[0]
         ?.args.join(", ")
@@ -226,7 +226,7 @@ Deno.test("error() should log only when FRAME_LOG_LEVEL is not none", () => {
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[1]?.args,
-    [`${ERROR_PREFIX} - `, "test"],
+    [`${ERROR_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[1]
         ?.args.join(", ")
@@ -241,7 +241,7 @@ Deno.test("error() should log only when FRAME_LOG_LEVEL is not none", () => {
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[2]?.args,
-    [`${ERROR_PREFIX} - `, "test"],
+    [`${ERROR_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[2]
         ?.args.join(", ")
@@ -256,7 +256,7 @@ Deno.test("error() should log only when FRAME_LOG_LEVEL is not none", () => {
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[3]?.args,
-    [`${ERROR_PREFIX} - `, "test"],
+    [`${ERROR_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[3]
         ?.args.join(", ")
@@ -294,7 +294,7 @@ Deno.test("error() should log only when LOG_LEVEL is not none", () => {
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[0]?.args,
-    [`${ERROR_PREFIX} - `, "test"],
+    [`${ERROR_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[0]
         ?.args.join(", ")
@@ -309,7 +309,7 @@ Deno.test("error() should log only when LOG_LEVEL is not none", () => {
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[1]?.args,
-    [`${ERROR_PREFIX} - `, "test"],
+    [`${ERROR_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[1]
         ?.args.join(", ")
@@ -324,7 +324,7 @@ Deno.test("error() should log only when LOG_LEVEL is not none", () => {
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[2]?.args,
-    [`${ERROR_PREFIX} - `, "test"],
+    [`${ERROR_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[2]
         ?.args.join(", ")
@@ -339,7 +339,7 @@ Deno.test("error() should log only when LOG_LEVEL is not none", () => {
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[3]?.args,
-    [`${ERROR_PREFIX} - `, "test"],
+    [`${ERROR_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[3]
         ?.args.join(", ")
@@ -378,7 +378,7 @@ Deno.test("error() should log correctly when given a namespace argument", () => 
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[0]?.args,
-    [`[${namespace}] ${ERROR_PREFIX} - `, "test"],
+    [`[${namespace}] ${ERROR_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[0]
         ?.args.join(", ")
@@ -402,7 +402,7 @@ Deno.test("info() should log only when FRAME_LOG_LEVEL is info, debug, warn or e
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[0]?.args,
-    [`${INFO_PREFIX} - `, "test"],
+    [`${INFO_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[0]
         ?.args.join(", ")
@@ -417,7 +417,7 @@ Deno.test("info() should log only when FRAME_LOG_LEVEL is info, debug, warn or e
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[1]?.args,
-    [`${INFO_PREFIX} - `, "test"],
+    [`${INFO_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[1]
         ?.args.join(", ")
@@ -432,7 +432,7 @@ Deno.test("info() should log only when FRAME_LOG_LEVEL is info, debug, warn or e
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[2]?.args,
-    [`${INFO_PREFIX} - `, "test"],
+    [`${INFO_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[2]
         ?.args.join(", ")
@@ -447,7 +447,7 @@ Deno.test("info() should log only when FRAME_LOG_LEVEL is info, debug, warn or e
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[3]?.args,
-    [`${INFO_PREFIX} - `, "test"],
+    [`${INFO_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[3]
         ?.args.join(", ")
@@ -485,7 +485,7 @@ Deno.test("info() should log only when LOG_LEVEL is info, debug, warn or error",
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[0]?.args,
-    [`${INFO_PREFIX} - `, "test"],
+    [`${INFO_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[0]
         ?.args.join(", ")
@@ -500,7 +500,7 @@ Deno.test("info() should log only when LOG_LEVEL is info, debug, warn or error",
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[1]?.args,
-    [`${INFO_PREFIX} - `, "test"],
+    [`${INFO_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[1]
         ?.args.join(", ")
@@ -515,7 +515,7 @@ Deno.test("info() should log only when LOG_LEVEL is info, debug, warn or error",
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[2]?.args,
-    [`${INFO_PREFIX} - `, "test"],
+    [`${INFO_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[2]
         ?.args.join(", ")
@@ -530,7 +530,7 @@ Deno.test("info() should log only when LOG_LEVEL is info, debug, warn or error",
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[3]?.args,
-    [`${INFO_PREFIX} - `, "test"],
+    [`${INFO_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[3]
         ?.args.join(", ")
@@ -569,7 +569,7 @@ Deno.test("info() should log correctly when given a namespace argument", () => {
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[0]?.args,
-    [`[${namespace}] ${INFO_PREFIX} - `, "test"],
+    [`[${namespace}] ${INFO_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[0]
         ?.args.join(", ")
@@ -623,7 +623,7 @@ Deno.test("warn() should log only when FRAME_LOG_LEVEL is warn or error", () => 
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[0]?.args,
-    [`${WARN_PREFIX} - `, "test"],
+    [`${WARN_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[0]
         ?.args.join(", ")
@@ -638,7 +638,7 @@ Deno.test("warn() should log only when FRAME_LOG_LEVEL is warn or error", () => 
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[1]?.args,
-    [`${WARN_PREFIX} - `, "test"],
+    [`${WARN_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[1]
         ?.args.join(", ")
@@ -706,7 +706,7 @@ Deno.test("warn() should log only when LOG_LEVEL is warn or error", () => {
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[0]?.args,
-    [`${WARN_PREFIX} - `, "test"],
+    [`${WARN_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[0]
         ?.args.join(", ")
@@ -721,7 +721,7 @@ Deno.test("warn() should log only when LOG_LEVEL is warn or error", () => {
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[1]?.args,
-    [`${WARN_PREFIX} - `, "test"],
+    [`${WARN_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[1]
         ?.args.join(", ")
@@ -760,7 +760,7 @@ Deno.test("warn() should log correctly when given a namespace argument", () => {
 
   asserts.assertEquals(
     (console.log as mock.Spy<void>).calls[0]?.args,
-    [`[${namespace}] ${WARN_PREFIX} - `, "test"],
+    [`[${namespace}] ${WARN_PREFIX} -`, "test"],
     `console.log was called with ${
       (console.log as mock.Spy<void>).calls[0]
         ?.args.join(", ")
