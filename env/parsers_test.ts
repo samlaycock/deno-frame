@@ -226,7 +226,7 @@ Deno.test("asEnum() should throw when given an invalid value argument", () => {
   asserts.assertThrows(
     () => asEnum("invalid", { valid: ["test"] }),
     Error,
-    `should be one of [test]`,
+    `should be one of test`,
   );
 });
 

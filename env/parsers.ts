@@ -51,7 +51,7 @@ export function asEnum(
   const valueString = asString(value);
 
   if (valid.indexOf(valueString) < 0) {
-    throw new Error(`should be one of [${valid.join(", ")}]`);
+    throw new Error(`should be one of ${valid.join(", ")}`);
   }
 
   return valueString;
