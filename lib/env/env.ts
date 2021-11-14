@@ -6,7 +6,7 @@ import type { EnvParser, EnvParserOptions, EnvValues } from "./types.d.ts";
 
 await dotenv.configAsync({ export: true });
 
-function config(values: EnvValues): void {
+export function config(values: EnvValues): void {
   if (typeof values !== "object" || Array.isArray(values)) {
     throw new Error("'values' must be an object");
   }
@@ -75,7 +75,7 @@ function config(values: EnvValues): void {
   }
 }
 
-function get(
+export function get(
   key: string,
   defaultValue?: unknown,
   options?: { parse: EnvParser | EnvParserOptions },
@@ -144,7 +144,7 @@ function get(
   return value;
 }
 
-function set(key: string, value: unknown): unknown {
+export function set(key: string, value: unknown): unknown {
   if (typeof key !== "string") {
     throw new Error("'key' must be a string");
   }
@@ -168,7 +168,7 @@ function set(key: string, value: unknown): unknown {
   return value;
 }
 
-function unset(key: string): void {
+export function unset(key: string): void {
   if (typeof key !== "string") {
     throw new Error("'key' must be a string");
   }
@@ -176,9 +176,4 @@ function unset(key: string): void {
   internalCache.delete(key.toUpperCase());
 }
 
-export default {
-  config,
-  get,
-  set,
-  unset,
-};
+export default { config, get, set, unset };
