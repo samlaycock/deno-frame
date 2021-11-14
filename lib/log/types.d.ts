@@ -6,5 +6,5 @@ export type LogDriverType = "console";
 
 export interface LoggerOptions {
   namespace?: string | null;
-  driver?: LogDriverType | LogDriver;
+  driver?: LogDriverType;
 }

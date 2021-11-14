@@ -21,12 +21,12 @@ env.config({
   },
 });
 
-export function getLogDriver(): string {
+export function getLogDriver(): LogDriverType {
   const logDriver = env.get("FRAME_LOG_DRIVER") ||
     env.get("LOG_DRIVER") ||
     "console";
 
-  return logDriver as string;
+  return logDriver as LogDriverType;
 }
 
 export function getLogLevel(): string {
