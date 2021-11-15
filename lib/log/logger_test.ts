@@ -1,5 +1,5 @@
 import { env } from "./deps.ts";
-import { asserts } from "./dev_deps.ts";
+import { asserts, mock } from "./dev_deps.ts";
 import {
   DEBUG_PREFIX,
   ERROR_PREFIX,
@@ -10,7 +10,7 @@ import { debug, error, info, warn } from "./logger.ts";
 import testDriver from "./drivers/_test/driver.ts";
 
 /* debug() */
-Deno.test("debug() should log only when FRAME_LOG_LEVEL is debug, warn or error", () => {
+Deno.test("logger.debug() should log only when FRAME_LOG_LEVEL is debug, warn or error", () => {
   env.set("FRAME_LOG_LEVEL", "info");
 
   debug("test", { driver: "test" });
@@ -89,7 +89,7 @@ Deno.test("debug() should log only when FRAME_LOG_LEVEL is debug, warn or error"
   testDriver.reset();
 });
 
-Deno.test("debug() should log only when LOG_LEVEL is debug, warn or error", () => {
+Deno.test("logger.debug() should log only when LOG_LEVEL is debug, warn or error", () => {
   env.set("LOG_LEVEL", "info");
 
   debug("test", { driver: "test" });
@@ -168,7 +168,7 @@ Deno.test("debug() should log only when LOG_LEVEL is debug, warn or error", () =
   testDriver.reset();
 });
 
-Deno.test("debug() should log correctly when given a namespace argument", () => {
+Deno.test("logger.debug() should log correctly when given a namespace argument", () => {
   const namespace = "test";
 
   env.set("FRAME_LOG_LEVEL", "debug");
@@ -189,8 +189,26 @@ Deno.test("debug() should log correctly when given a namespace argument", () => 
   testDriver.reset();
 });
 
+Deno.test("logger.debug() should use the given 'options.driver' instance", () => {
+  env.set("FRAME_LOG_LEVEL", "debug");
+
+  const driver = {
+    name: "test",
+    log: mock.spy(),
+  };
+
+  debug("test", { driver });
+
+  asserts.assertEquals(
+    driver.log.calls[0]?.args,
+    [`${DEBUG_PREFIX} -`, "test"],
+  );
+
+  env.unset("FRAME_LOG_LEVEL");
+});
+
 /* error() */
-Deno.test("error() should log only when FRAME_LOG_LEVEL is not none", () => {
+Deno.test("logger.error() should log only when FRAME_LOG_LEVEL is not none", () => {
   env.set("FRAME_LOG_LEVEL", "info");
 
   error("test", { driver: "test" });
@@ -269,7 +287,7 @@ Deno.test("error() should log only when FRAME_LOG_LEVEL is not none", () => {
   testDriver.reset();
 });
 
-Deno.test("error() should log only when LOG_LEVEL is not none", () => {
+Deno.test("logger.error() should log only when LOG_LEVEL is not none", () => {
   env.set("LOG_LEVEL", "info");
 
   error("test", { driver: "test" });
@@ -348,7 +366,7 @@ Deno.test("error() should log only when LOG_LEVEL is not none", () => {
   testDriver.reset();
 });
 
-Deno.test("error() should log correctly when given a namespace argument", () => {
+Deno.test("logger.error() should log correctly when given a namespace argument", () => {
   const namespace = "test";
 
   env.set("FRAME_LOG_LEVEL", "error");
@@ -369,8 +387,26 @@ Deno.test("error() should log correctly when given a namespace argument", () => 
   testDriver.reset();
 });
 
+Deno.test("logger.error() should use the given 'options.driver' instance", () => {
+  env.set("FRAME_LOG_LEVEL", "error");
+
+  const driver = {
+    name: "test",
+    log: mock.spy(),
+  };
+
+  error("test", { driver });
+
+  asserts.assertEquals(
+    driver.log.calls[0]?.args,
+    [`${ERROR_PREFIX} -`, "test"],
+  );
+
+  env.unset("FRAME_LOG_LEVEL");
+});
+
 /* info() */
-Deno.test("info() should log only when FRAME_LOG_LEVEL is info, debug, warn or error", () => {
+Deno.test("logger.info() should log only when FRAME_LOG_LEVEL is info, debug, warn or error", () => {
   env.set("FRAME_LOG_LEVEL", "info");
 
   info("test", { driver: "test" });
@@ -449,7 +485,7 @@ Deno.test("info() should log only when FRAME_LOG_LEVEL is info, debug, warn or e
   testDriver.reset();
 });
 
-Deno.test("info() should log only when LOG_LEVEL is info, debug, warn or error", () => {
+Deno.test("logger.info() should log only when LOG_LEVEL is info, debug, warn or error", () => {
   env.set("LOG_LEVEL", "info");
 
   info("test", { driver: "test" });
@@ -528,7 +564,7 @@ Deno.test("info() should log only when LOG_LEVEL is info, debug, warn or error",
   testDriver.reset();
 });
 
-Deno.test("info() should log correctly when given a namespace argument", () => {
+Deno.test("logger.info() should log correctly when given a namespace argument", () => {
   const namespace = "test";
 
   env.set("FRAME_LOG_LEVEL", "info");
@@ -549,8 +585,26 @@ Deno.test("info() should log correctly when given a namespace argument", () => {
   testDriver.reset();
 });
 
+Deno.test("logger.info() should use the given 'options.driver' instance", () => {
+  env.set("FRAME_LOG_LEVEL", "info");
+
+  const driver = {
+    name: "test",
+    log: mock.spy(),
+  };
+
+  info("test", { driver });
+
+  asserts.assertEquals(
+    driver.log.calls[0]?.args,
+    [`${INFO_PREFIX} -`, "test"],
+  );
+
+  env.unset("FRAME_LOG_LEVEL");
+});
+
 /* warn */
-Deno.test("warn() should log only when FRAME_LOG_LEVEL is warn or error", () => {
+Deno.test("logger.warn() should log only when FRAME_LOG_LEVEL is warn or error", () => {
   env.set("FRAME_LOG_LEVEL", "info");
 
   warn("test", { driver: "test" });
@@ -629,7 +683,7 @@ Deno.test("warn() should log only when FRAME_LOG_LEVEL is warn or error", () => 
   testDriver.reset();
 });
 
-Deno.test("warn() should log only when LOG_LEVEL is warn or error", () => {
+Deno.test("logger.warn() should log only when LOG_LEVEL is warn or error", () => {
   env.set("LOG_LEVEL", "info");
 
   warn("test", { driver: "test" });
@@ -708,7 +762,7 @@ Deno.test("warn() should log only when LOG_LEVEL is warn or error", () => {
   testDriver.reset();
 });
 
-Deno.test("warn() should log correctly when given a namespace argument", () => {
+Deno.test("logger.warn() should log correctly when given a namespace argument", () => {
   const namespace = "test";
 
   env.set("FRAME_LOG_LEVEL", "warn");
@@ -727,4 +781,22 @@ Deno.test("warn() should log correctly when given a namespace argument", () => {
   env.unset("FRAME_LOG_LEVEL");
 
   testDriver.reset();
+});
+
+Deno.test("logger.warn() should use the given 'options.driver' instance", () => {
+  env.set("FRAME_LOG_LEVEL", "warn");
+
+  const driver = {
+    name: "test",
+    log: mock.spy(),
+  };
+
+  warn("test", { driver });
+
+  asserts.assertEquals(
+    driver.log.calls[0]?.args,
+    [`${WARN_PREFIX} -`, "test"],
+  );
+
+  env.unset("FRAME_LOG_LEVEL");
 });

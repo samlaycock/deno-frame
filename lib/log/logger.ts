@@ -11,122 +11,50 @@ import {
   INFO_PREFIX,
   WARN_PREFIX,
 } from "./constants.ts";
-import type { LoggerOptions } from "./types.d.ts";
+import type { LoggerOptions, LogLevel } from "./types.d.ts";
 
-export function info(...args: Array<string | LoggerOptions>): void {
-  const logDriver = getLogDriver();
+function processLog(
+  items: Array<unknown | LoggerOptions>,
+  allowed: Array<LogLevel>,
+  prefix: string,
+) {
+  const logDriverType = getLogDriver();
   const logLevel = getLogLevel();
 
-  if (["info", "debug", "warn", "error"].includes(logLevel)) {
-    const options = getLoggerOptions(args);
+  if (allowed.includes(logLevel)) {
+    const options = getLoggerOptions(items);
 
     if (options) {
-      args.pop();
+      items.pop();
 
       const { namespace, driver } = options;
+      const logDriver = typeof driver === "object"
+        ? driver
+        : drivers[driver || logDriverType];
 
       if (namespace) {
-        drivers[driver || logDriver].log(
-          `${formatNamespace(namespace)} ${INFO_PREFIX} -`,
-          ...args,
-        );
+        logDriver.log(`${formatNamespace(namespace)} ${prefix} -`, ...items);
       } else {
-        drivers[driver || logDriver].log(
-          `${INFO_PREFIX} -`,
-          ...args,
-        );
+        logDriver.log(`${prefix} -`, ...items);
       }
-    } else {
-      drivers[logDriver].log(`${INFO_PREFIX} -`, ...args);
     }
   }
+}
+
+export function info(...args: Array<unknown | LoggerOptions>): void {
+  processLog(args, ["info", "debug", "warn", "error"], INFO_PREFIX);
 }
 
 export function debug(...args: Array<string | LoggerOptions>): void {
-  const logDriver = getLogDriver();
-  const logLevel = getLogLevel();
-
-  if (["debug", "warn", "error"].includes(logLevel)) {
-    const options = getLoggerOptions(args);
-
-    if (options) {
-      args.pop();
-
-      const { namespace, driver } = options;
-
-      if (namespace) {
-        drivers[driver || logDriver].log(
-          `${formatNamespace(namespace)} ${DEBUG_PREFIX} -`,
-          ...args,
-        );
-      } else {
-        drivers[driver || logDriver].log(
-          `${DEBUG_PREFIX} -`,
-          ...args,
-        );
-      }
-    } else {
-      drivers[logDriver].log(`${DEBUG_PREFIX} -`, ...args);
-    }
-  }
+  processLog(args, ["debug", "warn", "error"], DEBUG_PREFIX);
 }
 
 export function warn(...args: Array<string | LoggerOptions>): void {
-  const logDriver = getLogDriver();
-  const logLevel = getLogLevel();
-
-  if (["warn", "error"].includes(logLevel)) {
-    const options = getLoggerOptions(args);
-
-    if (options) {
-      args.pop();
-
-      const { namespace, driver } = options;
-
-      if (namespace) {
-        drivers[driver || logDriver].log(
-          `${formatNamespace(namespace)} ${WARN_PREFIX} -`,
-          ...args,
-        );
-      } else {
-        drivers[driver || logDriver].log(
-          `${WARN_PREFIX} -`,
-          ...args,
-        );
-      }
-    } else {
-      (drivers[logDriver]).log(`${WARN_PREFIX} -`, ...args);
-    }
-  }
+  processLog(args, ["warn", "error"], WARN_PREFIX);
 }
 
 export function error(...args: Array<string | LoggerOptions>): void {
-  const logDriver = getLogDriver();
-  const logLevel = getLogLevel();
-
-  if (!["none"].includes(logLevel)) {
-    const options = getLoggerOptions(args);
-
-    if (options) {
-      args.pop();
-
-      const { namespace, driver } = options;
-
-      if (namespace) {
-        drivers[driver || logDriver].log(
-          `${formatNamespace(namespace)} ${ERROR_PREFIX} -`,
-          ...args,
-        );
-      } else {
-        drivers[driver || logDriver].log(
-          `${ERROR_PREFIX} -`,
-          ...args,
-        );
-      }
-    } else {
-      drivers[logDriver].log(`${ERROR_PREFIX} -`, ...args);
-    }
-  }
+  processLog(args, ["info", "debug", "warn", "error"], ERROR_PREFIX);
 }
 
 export default { info, debug, warn, error };

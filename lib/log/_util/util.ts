@@ -1,6 +1,6 @@
 import { env } from "../deps.ts";
 import { LOG_DRIVERS, LOG_LEVELS } from "../constants.ts";
-import type { LogDriverType, LoggerOptions } from "../types.d.ts";
+import type { LogDriverType, LoggerOptions, LogLevel } from "../types.d.ts";
 
 env.config({
   FRAME_LOG_DRIVER: {
@@ -33,12 +33,12 @@ export function getLogDriver(): LogDriverType {
   return logDriver as LogDriverType;
 }
 
-export function getLogLevel(): string {
+export function getLogLevel(): LogLevel {
   const logLevel = env.get("FRAME_LOG_LEVEL") ||
     env.get("LOG_LEVEL") ||
     "debug";
 
-  return logLevel as string;
+  return logLevel as LogLevel;
 }
 
 export function getLoggerOptions(
@@ -50,7 +50,8 @@ export function getLoggerOptions(
     typeof last === "object" &&
     Object.keys(last).length > 0 &&
     Object.keys(last).length <= 2 &&
-    (typeof last.namespace === "string" || typeof last.driver === "string")
+    (typeof last.namespace === "string" ||
+      (typeof last.driver === "string" || typeof last.driver === "object"))
   ) {
     return last;
   }
