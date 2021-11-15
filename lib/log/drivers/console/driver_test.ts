@@ -1,6 +1,10 @@
 import { asserts, mock } from "../../dev_deps.ts";
 import consoleDriver from "./driver.ts";
 
+Deno.test("consoleDriver.name should be 'console'", () => {
+  asserts.assertEquals(consoleDriver.name, "console");
+});
+
 Deno.test("consoleDriver.log() should call console.log()", () => {
   const log = console.log;
 

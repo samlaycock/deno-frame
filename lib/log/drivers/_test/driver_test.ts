@@ -1,6 +1,10 @@
 import { asserts } from "../../dev_deps.ts";
 import testDriver from "./driver.ts";
 
+Deno.test("testDriver.name should be 'test'", () => {
+  asserts.assertEquals(testDriver.name, "test");
+});
+
 Deno.test("testDriver.log() should call the mocked function", () => {
   testDriver.log("test");
 
