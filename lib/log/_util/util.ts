@@ -52,15 +52,6 @@ export function getLoggerOptions(
     Object.keys(last).length <= 2 &&
     (typeof last.namespace === "string" || typeof last.driver === "string")
   ) {
-    if (
-      typeof last.driver !== "undefined" &&
-      !LOG_DRIVERS.includes(last.driver as LogDriverType)
-    ) {
-      throw new Error(
-        `'options.driver' must be one of ${LOG_DRIVERS.join(", ")}`,
-      );
-    }
-
     return last;
   }
 
