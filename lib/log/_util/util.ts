@@ -21,6 +21,10 @@ env.config({
   },
 });
 
+export function formatNamespace(namespace: string): string {
+  return `[${namespace}]`;
+}
+
 export function getLogDriver(): LogDriverType {
   const logDriver = env.get("FRAME_LOG_DRIVER") ||
     env.get("LOG_DRIVER") ||

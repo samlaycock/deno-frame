@@ -1,5 +1,10 @@
 import drivers from "./drivers/map.ts";
-import { getLogDriver, getLoggerOptions, getLogLevel } from "./_util/util.ts";
+import {
+  formatNamespace,
+  getLogDriver,
+  getLoggerOptions,
+  getLogLevel,
+} from "./_util/util.ts";
 import {
   DEBUG_PREFIX,
   ERROR_PREFIX,
@@ -22,7 +27,7 @@ export function info(...args: Array<string | LoggerOptions>): void {
 
       if (namespace) {
         drivers[driver || logDriver].log(
-          `[${namespace}] ${INFO_PREFIX} -`,
+          `${formatNamespace(namespace)} ${INFO_PREFIX} -`,
           ...args,
         );
       } else {
@@ -51,7 +56,7 @@ export function debug(...args: Array<string | LoggerOptions>): void {
 
       if (namespace) {
         drivers[driver || logDriver].log(
-          `[${namespace}] ${DEBUG_PREFIX} -`,
+          `${formatNamespace(namespace)} ${DEBUG_PREFIX} -`,
           ...args,
         );
       } else {
@@ -80,7 +85,7 @@ export function warn(...args: Array<string | LoggerOptions>): void {
 
       if (namespace) {
         drivers[driver || logDriver].log(
-          `[${namespace}] ${WARN_PREFIX} -`,
+          `${formatNamespace(namespace)} ${WARN_PREFIX} -`,
           ...args,
         );
       } else {
@@ -109,7 +114,7 @@ export function error(...args: Array<string | LoggerOptions>): void {
 
       if (namespace) {
         drivers[driver || logDriver].log(
-          `[${namespace}] ${ERROR_PREFIX} -`,
+          `${formatNamespace(namespace)} ${ERROR_PREFIX} -`,
           ...args,
         );
       } else {

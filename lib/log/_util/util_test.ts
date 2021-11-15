@@ -1,6 +1,46 @@
 import { env } from "../deps.ts";
 import { asserts } from "../dev_deps.ts";
-import { getLoggerOptions, getLogLevel } from "./util.ts";
+import {
+  formatNamespace,
+  getLogDriver,
+  getLoggerOptions,
+  getLogLevel,
+} from "./util.ts";
+
+/* formatNamespace() */
+Deno.test("formatNamespace() should return the correctly formatted namespace", () => {
+  const namespace = "test";
+  const result = formatNamespace(namespace);
+
+  asserts.assertEquals(result, `[${namespace}]`);
+});
+
+/* getLogDriver() */
+Deno.test("getLogDriver() should return the correct driver when FRAME_LOG_LEVEL is set", () => {
+  env.set("FRAME_LOG_DRIVER", "test");
+
+  const result = getLogDriver();
+
+  asserts.assertEquals(result, "test");
+
+  env.unset("FRAME_LOG_DRIVER");
+});
+
+Deno.test("getLogDriver() should return the correct driver when LOG_LEVEL is set", () => {
+  env.set("LOG_DRIVER", "test");
+
+  const result = getLogDriver();
+
+  asserts.assertEquals(result, "test");
+
+  env.unset("LOG_DRIVER");
+});
+
+Deno.test("getLogDriver() should return the correct default driver when FRAME_LOG_LEVEL and LOG_LEVEL are not set", () => {
+  const result = getLogDriver();
+
+  asserts.assertEquals(result, "console");
+});
 
 /* getLoggerOptions() */
 Deno.test("getLoggerOptions() should return the given in options object", () => {

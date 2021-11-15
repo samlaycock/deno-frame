@@ -1,6 +1,6 @@
 import { colors } from "./deps.ts";
 
-export const LOG_DRIVERS = ["console"];
+export const LOG_DRIVERS = ["console", "test"];
 
 export const LOG_LEVELS = ["info", "debug", "warn", "error", "none"];
 

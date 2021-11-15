@@ -3,5 +3,6 @@ function log(...args: Array<unknown>) {
 }
 
 export default {
+  name: "console",
   log,
 };
