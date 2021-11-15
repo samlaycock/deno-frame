@@ -13,22 +13,6 @@ interface TurboLinkProps {
 export default function TurboLink(
   { children, href, frame, action, method, ...props }: TurboLinkProps,
 ) {
-  if (typeof href === "undefined") {
-    throw new Error("'href' is required");
-  }
-
-  if (
-    typeof action !== "undefined" && !TURBO_LINK_ACTIONS.includes(action)
-  ) {
-    throw Error(`'action' must be one of ${TURBO_LINK_ACTIONS.join(", ")}`);
-  }
-
-  if (
-    typeof method !== "undefined" && !TURBO_LINK_METHODS.includes(method)
-  ) {
-    throw Error(`'method' must be one of ${TURBO_LINK_METHODS.join(", ")}`);
-  }
-
   return (
     <a
       href={href}

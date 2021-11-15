@@ -11,16 +11,6 @@ interface TurboFrameProps {
 export default function TurboStream(
   { children, action, target }: TurboFrameProps,
 ) {
-  if (!TURBO_STREAM_ACTIONS.includes(action)) {
-    throw new Error(
-      `'action' must be one of ${TURBO_STREAM_ACTIONS.join(", ")}`,
-    );
-  }
-
-  if (typeof target === "undefined") {
-    throw new Error("'target' is required");
-  }
-
   return (
     <turbo-stream action={action} target={target}>
       <template>
