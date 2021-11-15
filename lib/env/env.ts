@@ -14,19 +14,20 @@ export function config(values: EnvValues): void {
   for (const [key, parser] of Object.entries(values)) {
     const formattedKey = key.toUpperCase();
     const rawValue = Deno.env.get(formattedKey);
+    let parsedValue;
 
-    if (typeof rawValue !== "undefined") {
-      let parsedValue;
+    if (typeof parser === "string") {
+      if (!ENV_PARSERS.includes(parser as string)) {
+        throw new Error(
+          `Invalid 'parser' "${parser}" for "${key}" (must be one of ${
+            ENV_PARSERS.join(", ")
+          })`,
+        );
+      }
 
-      if (typeof parser === "string") {
-        if (!ENV_PARSERS.includes(parser as string)) {
-          throw new Error(
-            `Invalid 'parser' "${parser}" for "${key}" (must be one of ${
-              ENV_PARSERS.join(", ")
-            })`,
-          );
-        }
-
+      if (typeof rawValue === "undefined") {
+        parsedValue = rawValue;
+      } else {
         const parserFunc = `as${(parser as string).charAt(0).toUpperCase()}${
           (parser as string).slice(1)
         }`;
@@ -38,19 +39,30 @@ export function config(values: EnvValues): void {
         } catch (error) {
           throw new Error(`"${key}" ${error.message}`);
         }
-      } else if (typeof parser === "object" && !Array.isArray(parser)) {
-        const { as: parserType, required, ...options } = parser;
+      }
+    } else if (typeof parser === "object" && !Array.isArray(parser)) {
+      const {
+        as: parserType,
+        default: defaultValue,
+        required,
+        ...options
+      } = parser;
 
-        if (!ENV_PARSERS.includes(parserType as string)) {
-          throw new Error(
-            `Invalid 'parser.as' "${parserType}" for "${key}" (must be one of ${
-              ENV_PARSERS.join(", ")
-            })`,
-          );
-        }
+      if (!ENV_PARSERS.includes(parserType as string)) {
+        throw new Error(
+          `Invalid 'parser.as' "${parserType}" for "${key}" (must be one of ${
+            ENV_PARSERS.join(", ")
+          })`,
+        );
+      }
 
+      if (typeof rawValue === "undefined") {
+        parsedValue = typeof defaultValue !== "undefined"
+          ? defaultValue
+          : undefined;
+      } else {
         if (
-          required && (typeof parsedValue === "undefined")
+          required && (typeof rawValue === "undefined")
         ) {
           throw new Error(`"${key}" is a required value`);
         }
@@ -66,12 +78,12 @@ export function config(values: EnvValues): void {
         } catch (error) {
           throw new Error(`"${key}" ${error.message}`);
         }
-      } else {
-        throw new Error(`'parser' for "${key}" must be a string or an array`);
       }
-
-      internalCache.set(formattedKey, parsedValue);
+    } else {
+      throw new Error(`'parser' for "${key}" must be a string or an array`);
     }
+
+    internalCache.set(formattedKey, parsedValue);
   }
 }
 
@@ -110,7 +122,12 @@ export function get(
       }
     }
 
-    const { as: parserType, required, ...parserOptions } = options.parse;
+    const {
+      as: parserType,
+      required,
+      default: defaultValue,
+      ...parserOptions
+    } = options.parse;
 
     if (!ENV_PARSERS.includes(parserType as string)) {
       throw new Error(
@@ -120,24 +137,28 @@ export function get(
       );
     }
 
-    if (
-      required && (typeof value === "undefined")
-    ) {
-      throw new Error(`"${key}" is a required value`);
-    }
+    if (typeof value !== "undefined") {
+      return typeof defaultValue !== "undefined" ? defaultValue : undefined;
+    } else {
+      if (
+        required && (typeof value === "undefined")
+      ) {
+        throw new Error(`"${key}" is a required value`);
+      }
 
-    const parserFunc = `as${(parserType as string).charAt(0).toUpperCase()}${
-      (parserType as string).slice(1)
-    }`;
+      const parserFunc = `as${(parserType as string).charAt(0).toUpperCase()}${
+        (parserType as string).slice(1)
+      }`;
 
-    try {
-      // deno-lint-ignore ban-types
-      return (parsers as Record<string, Function>)[parserFunc as string](
-        value,
-        { ...parserOptions },
-      );
-    } catch (error) {
-      throw new Error(`"${key}" ${error.message}`);
+      try {
+        // deno-lint-ignore ban-types
+        return (parsers as Record<string, Function>)[parserFunc as string](
+          value,
+          { ...parserOptions },
+        );
+      } catch (error) {
+        throw new Error(`"${key}" ${error.message}`);
+      }
     }
   }
 

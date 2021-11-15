@@ -20,10 +20,11 @@ export type EnvParser =
 
 export interface EnvParserOptions {
   as: EnvParser;
+  default?: unknown;
+  required?: boolean;
   valid?: Array<string>;
   delimiter?: string;
   flags?: string;
-  required?: boolean;
 }
 
 export type EnvValues = Record<string, EnvParser | EnvParserOptions>;
