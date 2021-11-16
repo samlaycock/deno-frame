@@ -1,0 +1,112 @@
+name: Publish release
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+jobs:
+  integration_tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.16.x
+
+      - name: Cache dependencies
+        run: deno cache lib/**/*deps.ts
+
+      # DynamoDB
+      # - name: Start local DynamoDB
+      #   run: docker compose -f test/docker-compose.yml up -d dynamodb
+
+      # - name: Run integration tests
+      #   run: deno test --allow-all test/integration/**/dynamodb_test.ts
+
+      # - name: Stop local DynamoDB
+      #   run: docker compose -f test/docker-compose.yml down dynamodb
+
+      # SQS
+      - name: Start local SQS
+        run: docker compose -f test/docker-compose.yml up -d sqs
+
+      - name: Run integration tests
+        run: deno test --allow-all test/integration/**/sqs_test.ts
+
+      - name: Stop local SQS
+        run: docker compose -f test/docker-compose.yml down sqs
+
+      # SNS
+      # - name: Start local SNS
+      #   run: docker compose -f test/docker-compose.yml up -d sns
+
+      # - name: Run integration tests
+      #   run: deno test --allow-all test/integration/**/sns_test.ts
+
+      # - name: Stop local SNS
+      #   run: docker compose -f test/docker-compose.yml down sns
+
+      # S3
+      # - name: Start local S3
+      #   run: docker compose -f test/docker-compose.yml up -d s3
+
+      # - name: Run integration tests
+      #   run: deno test --allow-all test/integration/**/s3_test.ts
+
+      # - name: Stop local S3
+      #   run: docker compose -f test/docker-compose.yml down s3
+
+      # Kinesis
+      # - name: Start local Kinesis
+      #   run: docker compose -f test/docker-compose.yml up -d kinesis
+
+      # - name: Run integration tests
+      #   run: deno test --allow-all test/integration/**/kinesis_test.ts
+
+      # - name: Stop local Kinesis
+      #   run: docker compose -f test/docker-compose.yml down kinesis
+
+      # Cassandra
+      # - name: Start local Cassandra
+      #   run: docker compose -f test/docker-compose.yml up -d cassandra
+
+      # - name: Run integration tests
+      #   run: deno test --allow-all test/integration/**/cassandra_test.ts
+
+      # - name: Stop local Cassandra
+      #   run: docker compose -f test/docker-compose.yml down cassandra
+
+      # Redis
+      # - name: Start local Redis
+      #   run: docker compose -f test/docker-compose.yml up -d redis
+
+      # - name: Run integration tests
+      #   run: deno test --allow-all test/integration/**/redis_test.ts
+
+      # - name: Stop local Redis
+      #   run: docker compose -f test/docker-compose.yml down redis
+
+      # NATS
+      # - name: Start local NATS
+      #   run: docker compose -f test/docker-compose.yml up -d nats
+
+      # - name: Run integration tests
+      #   run: deno test --allow-all test/integration/**/nats_test.ts
+
+      # - name: Stop local NATS
+      #   run: docker compose -f test/docker-compose.yml down nats
+
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
