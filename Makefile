@@ -1,3 +1,5 @@
+.PHONY: test
+
 lint:
 	deno lint --config=deno.json
 
