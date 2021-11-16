@@ -1,4 +1,12 @@
-export { default as log } from "./logger.ts";
-export { debug, error, info, warn } from "./logger.ts";
+import log from "./logger.ts";
+import type {
+  LogDriver,
+  LogDriverType,
+  LoggerOptions,
+  LogLevel,
+} from "./types.d.ts";
+
+export default log;
+export * from "./logger.ts";
 export * from "./constants.ts";
-export * from "./types.d.ts";
+export type { LogDriver, LogDriverType, LoggerOptions, LogLevel };
