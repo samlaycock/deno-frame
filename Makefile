@@ -4,11 +4,14 @@ lint:
 fmt:
 	deno fmt --config=deno.json --check
 
+cache:
+	deno cache lib/**/*deps.ts
+
 test:
-	make test_clean && deno test --allow-env --allow-read --fail-fast --coverage=.cov_profile lib/$(module)
+	make test_clean && deno test --allow-all --fail-fast --coverage=.cov_profile lib/$(module)
 
 test_watch:
-	deno test --allow-env --allow-read --fail-fast --watch lib/$(module)
+	deno test --allow-all --fail-fast --watch lib/$(module)
 
 test_clean:
 	rm -rf ./.cov_profile
