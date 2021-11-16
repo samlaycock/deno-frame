@@ -1,10 +1,8 @@
-import env, { config, get, set, unset } from "./env.ts";
-import * as parsers from "./parsers.ts";
-import { ENV_PARSERS } from "./constants.ts";
+import env from "./env.ts";
 import type { EnvParser, EnvParserOptions, EnvValues } from "./types.d.ts";
 
 export default env;
-
-export { config, ENV_PARSERS, get, parsers, set, unset };
-
+export * from "./env.ts";
+export * as parsers from "./parsers.ts";
+export * from "./constants.ts";
 export type { EnvParser, EnvParserOptions, EnvValues };
