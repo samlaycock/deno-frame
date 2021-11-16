@@ -1,4 +1,4 @@
-name: Deno
+name: Lint and test
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,6 +24,21 @@ jobs:
 
       - name: Run linter
         run: deno lint --config=deno.json
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.16.x
+
+      - name: Cache dependencies
+        run: deno cache lib/**/*deps.ts
 
       - name: Run tests
         run: deno test --allow-all lib
