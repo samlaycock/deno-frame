@@ -1,8 +1,8 @@
 lint:
-	deno lint
+	deno lint --config=deno.json
 
 fmt:
-	deno fmt
+	deno fmt --config=deno.json --check
 
 test:
 	make test_clean && deno test --allow-env --allow-read --fail-fast --coverage=.cov_profile lib/$(module)

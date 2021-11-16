@@ -10,6 +10,16 @@
   "files.exclude": {
     "**/.git": false
   },
+  "[json]": {
+    "editor.defaultFormatter": "denoland.vscode-deno",
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "editor.suggest.insertMode": "replace",
+    "gitlens.codeLens.scopes": [
+      "document"
+    ]
+  },
   "[typescript]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
   },

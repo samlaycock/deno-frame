@@ -2,14 +2,18 @@
   "fmt": {
     "files": {
       "exclude": [
-        ".git"
+        ".git",
+        ".github",
+        ".vscode"
       ]
     }
   },
   "lint": {
     "files": {
       "exclude": [
-        ".git"
+        ".git",
+        ".github",
+        ".vscode"
       ]
     }
   }
