@@ -54,8 +54,6 @@ export default function createAWSLambdaHandler(
       } catch (error) {
         if (typeof onError === "function") {
           await onError(error, queueJob, queueContext);
-        } else {
-          throw error;
         }
       }
 

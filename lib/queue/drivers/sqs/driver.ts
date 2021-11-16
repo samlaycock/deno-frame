@@ -197,8 +197,6 @@ async function consumeQueue(
               queueJob,
               context as Record<string, unknown>,
             );
-          } else {
-            throw error;
           }
         }
 
