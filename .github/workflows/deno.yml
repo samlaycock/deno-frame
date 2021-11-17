@@ -20,10 +20,10 @@ jobs:
           deno-version: v1.16.x
 
       - name: Verify formatting
-        run: deno fmt --config=deno.json --check
+        run: deno fmt --config=deno.json --check lib
 
       - name: Run linter
-        run: deno lint --config=deno.json
+        run: deno lint --config=deno.json lib
 
   test:
     runs-on: ubuntu-latest
