@@ -4,12 +4,12 @@ import type { QueueDriverType } from "../types.d.ts";
 
 env.config({
   FRAME_QUEUE_DRIVER: {
-    as: "enum",
-    valid: QUEUE_DRIVERS,
+    as: "string",
+    enum: QUEUE_DRIVERS,
   },
   QUEUE_DRIVER: {
-    as: "enum",
-    valid: QUEUE_DRIVERS,
+    as: "string",
+    enum: QUEUE_DRIVERS,
   },
 });
 

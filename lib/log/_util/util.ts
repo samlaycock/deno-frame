@@ -4,20 +4,20 @@ import type { LogDriverType, LoggerOptions, LogLevel } from "../types.d.ts";
 
 env.config({
   FRAME_LOG_DRIVER: {
-    as: "enum",
-    valid: LOG_DRIVERS,
+    as: "string",
+    enum: LOG_DRIVERS,
   },
   LOG_DRIVER: {
-    as: "enum",
-    valid: LOG_DRIVERS,
+    as: "string",
+    enum: LOG_DRIVERS,
   },
   FRAME_LOG_LEVEL: {
-    as: "enum",
-    valid: LOG_LEVELS,
+    as: "string",
+    enum: LOG_LEVELS,
   },
   LOG_LEVEL: {
-    as: "enum",
-    valid: LOG_LEVELS,
+    as: "string",
+    enum: LOG_LEVELS,
   },
 });
 
@@ -36,7 +36,7 @@ export function getLogDriver(): LogDriverType {
 export function getLogLevel(): LogLevel {
   const logLevel = env.get("FRAME_LOG_LEVEL") ||
     env.get("LOG_LEVEL") ||
-    "debug";
+    "info";
 
   return logLevel as LogLevel;
 }

@@ -1,18 +1,9 @@
 export type EnvParser =
   | "array"
-  | "bool"
-  | "boolStrict"
-  | "enum"
+  | "boolean"
   | "float"
-  | "floatNegative"
-  | "floatPositive"
   | "int"
-  | "intNegative"
-  | "intPositive"
   | "json"
-  | "jsonArray"
-  | "jsonObject"
-  | "portNumber"
   | "regExp"
   | "string"
   | "urlObject"
@@ -22,8 +13,15 @@ export interface EnvParserOptions {
   as: EnvParser;
   default?: unknown;
   required?: boolean;
-  valid?: Array<string>;
+  enum?: Array<string>;
   delimiter?: string;
+  of?: EnvParser;
+  strict?: boolean;
+  positive?: boolean;
+  negative?: boolean;
+  port?: boolean;
+  object?: boolean;
+  array?: boolean;
   flags?: string;
 }
 

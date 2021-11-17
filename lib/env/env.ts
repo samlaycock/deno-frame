@@ -1,5 +1,5 @@
 import { dotenv } from "./deps.ts";
-import * as parsers from "./parsers.ts";
+import parsers from "./parsers.ts";
 import internalCache from "./internal_cache.ts";
 import { ENV_PARSERS } from "./constants.ts";
 import type { EnvParser, EnvParserOptions, EnvValues } from "./types.d.ts";
@@ -28,8 +28,8 @@ export function config(values: EnvValues): void {
       if (typeof rawValue === "undefined") {
         parsedValue = rawValue;
       } else {
-        const parserFunc = `as${(parser as string).charAt(0).toUpperCase()}${
-          (parser as string).slice(1)
+        const parserFunc = `as${(parser).charAt(0).toUpperCase()}${
+          (parser).slice(1)
         }`;
 
         try {

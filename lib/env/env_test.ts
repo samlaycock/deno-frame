@@ -114,7 +114,7 @@ Deno.test("env.config() should throw when an invalid value is parsed from enviro
   Deno.env.set(key, value);
 
   asserts.assertThrows(
-    () => env.config({ [key]: { as: "enum", valid: ["other"] } }),
+    () => env.config({ [key]: { as: "string", enum: ["other"] } }),
     Error,
     `"${key}" should be one of other`,
   );

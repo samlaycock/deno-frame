@@ -1,26 +1,16 @@
 import { asserts } from "./dev_deps.ts";
 import {
   asArray,
-  asBool,
-  asBoolStrict,
-  asEnum,
+  asBoolean,
   asFloat,
-  asFloatNegative,
-  asFloatPositive,
   asInt,
-  asIntNegative,
-  asIntPositive,
   asJson,
-  asJsonArray,
-  asJsonObject,
-  asPortNumber,
   asRegExp,
   asString,
-  asUrlObject,
-  asUrlString,
+  asUrl,
 } from "./parsers.ts";
 
-/* asArray */
+/* asArray() */
 Deno.test("asArray() should return an Array", () => {
   const res = asArray("one,two,three");
 
@@ -67,14 +57,14 @@ Deno.test("asArray() should filter out empty values", () => {
   );
 });
 
-/* asBool */
-Deno.test("asBool() should return a boolean", () => {
-  const res1 = asBool("TRUE");
-  const res2 = asBool("FALSE");
-  const res3 = asBool("true");
-  const res4 = asBool("false");
-  const res5 = asBool("1");
-  const res6 = asBool("0");
+/* asBoolean() */
+Deno.test("asBoolean() should return a boolean", () => {
+  const res1 = asBoolean("TRUE");
+  const res2 = asBoolean("FALSE");
+  const res3 = asBoolean("true");
+  const res4 = asBoolean("false");
+  const res5 = asBoolean("1");
+  const res6 = asBoolean("0");
 
   asserts.assertEquals(
     typeof res1,
@@ -108,13 +98,13 @@ Deno.test("asBool() should return a boolean", () => {
   );
 });
 
-Deno.test("asBool() should return the correct value", () => {
-  const res1 = asBool("TRUE");
-  const res2 = asBool("FALSE");
-  const res3 = asBool("true");
-  const res4 = asBool("false");
-  const res5 = asBool("1");
-  const res6 = asBool("0");
+Deno.test("asBoolean() should return the correct value", () => {
+  const res1 = asBoolean("TRUE");
+  const res2 = asBoolean("FALSE");
+  const res3 = asBoolean("true");
+  const res4 = asBoolean("false");
+  const res5 = asBoolean("1");
+  const res6 = asBoolean("0");
 
   asserts.assertEquals(res1, true, `asBool returned ${res1} for value "TRUE"`);
   asserts.assertEquals(
@@ -132,20 +122,19 @@ Deno.test("asBool() should return the correct value", () => {
   asserts.assertEquals(res6, false, `asBool returned ${res1} for value "0"`);
 });
 
-Deno.test("asBool() should throw when given an invalid value argument", () => {
+Deno.test("asBoolean() should throw when given an invalid value argument", () => {
   asserts.assertThrows(
-    () => asBool("invalid"),
+    () => asBoolean("invalid"),
     Error,
     'should be either "true", "false", "TRUE", "FALSE", 1, or 0',
   );
 });
 
-/* asBoolStrict */
-Deno.test("asBoolStrict should return a boolean", () => {
-  const res1 = asBoolStrict("TRUE");
-  const res2 = asBoolStrict("FALSE");
-  const res3 = asBoolStrict("true");
-  const res4 = asBoolStrict("false");
+Deno.test("asBoolean() with 'options.strict' should return a boolean", () => {
+  const res1 = asBoolean("TRUE", { strict: true });
+  const res2 = asBoolean("FALSE", { strict: true });
+  const res3 = asBoolean("true", { strict: true });
+  const res4 = asBoolean("false", { strict: true });
 
   asserts.assertEquals(
     res1,
@@ -169,11 +158,11 @@ Deno.test("asBoolStrict should return a boolean", () => {
   );
 });
 
-Deno.test("asBoolStrict should return the correct value", () => {
-  const res1 = asBoolStrict("TRUE");
-  const res2 = asBoolStrict("FALSE");
-  const res3 = asBoolStrict("true");
-  const res4 = asBoolStrict("false");
+Deno.test("asBoolean() with 'options.strict' should return the correct value", () => {
+  const res1 = asBoolean("TRUE", { strict: true });
+  const res2 = asBoolean("FALSE", { strict: true });
+  const res3 = asBoolean("true", { strict: true });
+  const res4 = asBoolean("false", { strict: true });
 
   asserts.assertEquals(
     res1,
@@ -197,40 +186,21 @@ Deno.test("asBoolStrict should return the correct value", () => {
   );
 });
 
-Deno.test("asBool() should throw when given an invalid value argument", () => {
+Deno.test("asBoolean() with 'options.strict' should throw when given an invalid value argument", () => {
   asserts.assertThrows(
-    () => asBoolStrict("1"),
+    () => asBoolean("1", { strict: true }),
     Error,
     'should be either "true", "false", "TRUE", or "FALSE"',
   );
 
   asserts.assertThrows(
-    () => asBoolStrict("0"),
+    () => asBoolean("0", { strict: true }),
     Error,
     'should be either "true", "false", "TRUE", or "FALSE"',
   );
 });
 
-/* asEnum */
-Deno.test("asEnum() should return a string", () => {
-  const res = asEnum("test", { valid: ["test"] });
-
-  asserts.assertEquals(
-    typeof res,
-    "string",
-    `asEnum returned ${typeof res} for value "test"`,
-  );
-});
-
-Deno.test("asEnum() should throw when given an invalid value argument", () => {
-  asserts.assertThrows(
-    () => asEnum("invalid", { valid: ["test"] }),
-    Error,
-    `should be one of test`,
-  );
-});
-
-/* asFloat */
+/* asFloat() */
 Deno.test("asFloat() should return a number", () => {
   const res = asFloat("1.1");
 
@@ -245,45 +215,43 @@ Deno.test("asFloat() should throw when given an invalid value argument", () => {
   asserts.assertThrows(() => asFloat("1.0"), Error, "should be a valid float");
 });
 
-/* asFloatNegative */
-Deno.test("asFloatNegative() should return a number", () => {
-  const res = asFloatNegative("-1.1");
+Deno.test("asFloat() with 'options.negative' should return a number", () => {
+  const res = asFloat("-1.1", { negative: true });
 
   asserts.assertEquals(
     typeof res,
     "number",
-    `asFloatNegative returned ${typeof res} for value "-1.1"`,
+    `asFloat returned ${typeof res} for value "-1.1"`,
   );
 });
 
-Deno.test("asFloatNegative() should throw when given an invalid value argument", () => {
+Deno.test("asFloat() with 'options.negative' should throw when given an invalid value argument", () => {
   asserts.assertThrows(
-    () => asFloatNegative("1.1"),
+    () => asFloat("1.1", { negative: true }),
     Error,
     "should be a negative float",
   );
 });
 
-/* asFloatPositive */
-Deno.test("asFloatPositive() should return a number", () => {
-  const res = asFloatPositive("1.1");
+Deno.test("asFloat() with 'options.positive' should return a number", () => {
+  const res = asFloat("1.1", { positive: true });
 
   asserts.assertEquals(
     typeof res,
     "number",
-    `asFloatPositive returned ${typeof res} for value "-1.1"`,
+    `asFloat returned ${typeof res} for value "-1.1"`,
   );
 });
 
-Deno.test("asFloatPositive() should throw when given an invalid value argument", () => {
+Deno.test("asFloat() with 'options.positive' should throw when given an invalid value argument", () => {
   asserts.assertThrows(
-    () => asFloatPositive("-1.1"),
+    () => asFloat("-1.1", { positive: true }),
     Error,
     "should be a positive float",
   );
 });
 
-/* asInt */
+/* asInt() */
 Deno.test("asInt() should return a number", () => {
   const res = asInt("1");
 
@@ -302,45 +270,71 @@ Deno.test("asInt() should throw when given an invalid value argument", () => {
   );
 });
 
-/* asIntNegative */
-Deno.test("asIntNegative() should return a number", () => {
-  const res = asIntNegative("-1");
+Deno.test("asInt() with 'options.negative' should return a number", () => {
+  const res = asInt("-1", { negative: true });
 
   asserts.assertEquals(
     typeof res,
     "number",
-    `asIntNegative returned ${typeof res} for value "-1"`,
+    `asInt returned ${typeof res} for value "-1"`,
   );
 });
 
-Deno.test("asIntNegative() should throw when given an invalid value argument", () => {
+Deno.test("asInt() with 'options.negative' should throw when given an invalid value argument", () => {
   asserts.assertThrows(
-    () => asIntNegative("1"),
+    () => asInt("1", { negative: true }),
     Error,
     "should be a negative integer",
   );
 });
 
-/* asIntPositive */
-Deno.test("asIntNegative() should return a number", () => {
-  const res = asIntPositive("1");
+Deno.test("asInt() with 'options.positive' should return a number", () => {
+  const res = asInt("1", { positive: true });
 
   asserts.assertEquals(
     typeof res,
     "number",
-    `asIntPositive returned ${typeof res} for value "1"`,
+    `asInt returned ${typeof res} for value "1"`,
   );
 });
 
-Deno.test("asIntPositive() should throw when given an invalid value argument", () => {
+Deno.test("asInt() with 'options.positive' should throw when given an invalid value argument", () => {
   asserts.assertThrows(
-    () => asIntPositive("-1"),
+    () => asInt("-1", { positive: true }),
     Error,
     "should be a positive integer",
   );
 });
 
-/* asJson */
+Deno.test("asInt() with 'options.port' should return a number", () => {
+  const res = asInt("3000", { port: true });
+
+  asserts.assertEquals(
+    typeof res,
+    "number",
+    `asPortNumber returned ${typeof res} for value "3000"`,
+  );
+});
+
+Deno.test("asInt() with 'options.port' should throw when given an invalid value argument", () => {
+  asserts.assertThrows(
+    () => asInt("0", { port: true }),
+    Error,
+    "should a port number no greater than 65535",
+  );
+  asserts.assertThrows(
+    () => asInt("-1", { port: true }),
+    Error,
+    "should a port number no greater than 65535",
+  );
+  asserts.assertThrows(
+    () => asInt("99999", { port: true }),
+    Error,
+    "should a port number no greater than 65535",
+  );
+});
+
+/* asJson() */
 Deno.test("asJson() should return the correct JSON value", () => {
   const res1 = asJson('{"test":true}');
   const res2 = asJson('["test"]');
@@ -382,98 +376,77 @@ Deno.test("asJson() should throw when given an invalid value argument", () => {
   );
 });
 
-/* asJsonArray */
-Deno.test("asJsonArray() should return an array", () => {
-  const res = asJsonArray('["test"]');
+Deno.test("asJson() with 'options.array' should return an array", () => {
+  const res = asJson('["test"]', { array: true });
 
   asserts.assert(
     Array.isArray(res),
-    `asJsonArray returned ${typeof res} for value "["test"]"`,
+    `asJson returned ${typeof res} for value "["test"]"`,
   );
 });
 
-Deno.test("asJsonArray() should throw when given an invalid value argument", () => {
+Deno.test("asJson() with 'options.array' should throw when given an invalid value argument", () => {
   asserts.assertThrows(
-    () => asJsonArray('"test"'),
+    () => asJson('"test"', { array: true }),
     Error,
     "should be a parseable JSON Array",
   );
   asserts.assertThrows(
-    () => asJsonArray("1"),
+    () => asJson("1", { array: true }),
     Error,
     "should be a parseable JSON Array",
   );
   asserts.assertThrows(
-    () => asJsonArray("true"),
+    () => asJson("true", { array: true }),
     Error,
     "should be a parseable JSON Array",
   );
   asserts.assertThrows(
-    () => asJsonArray('{"test":true}'),
+    () => asJson('{"test":true}', { array: true }),
     Error,
     "should be a parseable JSON Array",
   );
 });
 
-/* asJsonObject */
-Deno.test("asJsonObject() should return an object", () => {
-  const res = asJsonObject('{"test":true}');
+Deno.test("asJson() with 'options.object' should return an object", () => {
+  const res = asJson('{"test":true}', { object: true });
 
   asserts.assertEquals(
     typeof res,
     "object",
-    `asJsonObject returned ${typeof res} for value "{"test":true}"`,
+    `asJson returned ${typeof res} for value "{"test":true}"`,
   );
   asserts.assertEquals(
     Array.isArray(res),
     false,
-    'asJsonObject returned an Array for value "{"test":true}"',
+    'asJson returned an Array for value "{"test":true}"',
   );
 });
 
-Deno.test("asJsonObject() should throw when given an invalid value argument", () => {
+Deno.test("asJson() with 'options.object' should throw when given an invalid value argument", () => {
   asserts.assertThrows(
-    () => asJsonObject('"test"'),
+    () => asJson('"test"', { object: true }),
     Error,
     "should be a parseable JSON Object",
   );
   asserts.assertThrows(
-    () => asJsonObject("1"),
+    () => asJson("1", { object: true }),
     Error,
     "should be a parseable JSON Object",
   );
   asserts.assertThrows(
-    () => asJsonObject("true"),
+    () => asJson("true", { object: true }),
     Error,
     "should be a parseable JSON Object",
   );
   asserts.assertThrows(
-    () => asJsonObject('["test"]'),
+    () => asJson('["test"]', { object: true }),
     Error,
     "should be a parseable JSON Object",
   );
 });
 
-/* asPortNumber */
-Deno.test("asPortNumber() should return a number", () => {
-  const res = asPortNumber("3000");
-
-  asserts.assertEquals(
-    typeof res,
-    "number",
-    `asPortNumber returned ${typeof res} for value "3000"`,
-  );
-});
-
-Deno.test("asPortNumber() should throw when given an invalid value argument", () => {
-  asserts.assertThrows(
-    () => asPortNumber("99999"),
-    Error,
-    "cannot assign a port number greater than 65535",
-  );
-});
-
-/* asRegExp */
+/* asRegExp() */
 Deno.test("asRegExp() should return a RegExp instance", () => {
   const res = asRegExp("/test/");
 
@@ -515,7 +488,7 @@ Deno.test("asRegExp() should throw when given invalid flags", () => {
   );
 });
 
-/* asString */
+/* asString() */
 Deno.test("asString() should return a string", () => {
   const res = asString("test");
 
@@ -536,59 +509,38 @@ Deno.test("asString() should return the given value", () => {
   );
 });
 
-/* asUrlObject */
-Deno.test("asUrlObject() should return a URL instance", () => {
-  const res = asUrlObject("http://test.com");
-
-  asserts.assert(
-    res instanceof URL,
-    `asUrlObject returned ${res.constructor} for value "http://test.com"`,
-  );
-});
-
-Deno.test("asUrlObject() should throw when given an invalid value argument", () => {
-  asserts.assertThrows(
-    () => asUrlObject("invalid"),
-    Error,
-    "should be a valid URL",
-  );
-});
-
-/* asUrlString */
-Deno.test("asUrlString() should return a URL instance", () => {
-  const res = asUrlString("http://test.com");
+Deno.test("asString() with 'options.enum' should return a string", () => {
+  const res = asString("test", { enum: ["test"] });
 
   asserts.assertEquals(
     typeof res,
     "string",
-    `asUrlObject returned ${typeof res} for value "http://test.com"`,
+    `asEnum returned ${typeof res} for value "test"`,
   );
 });
 
-Deno.test('asUrlString() should strip trailing "/" characters', () => {
-  const res1 = asUrlString("http://test.com");
-  const res2 = asUrlString("http://test.com/");
-  const res3 = asUrlString("http://test.com/test");
-  const res4 = asUrlString("http://test.com/test/");
+Deno.test("asString() with 'options.enum' should throw when given an invalid value argument", () => {
+  asserts.assertThrows(
+    () => asString("invalid", { enum: ["test"] }),
+    Error,
+    `should be one of test`,
+  );
+});
 
-  asserts.assertEquals(
-    res1,
-    "http://test.com",
-    `asUrlObject returned ${res1} for value "http://test.com"`,
+/* asUrlObject() */
+Deno.test("asUrl() should return a URL instance", () => {
+  const res = asUrl("http://test.com");
+
+  asserts.assert(
+    res instanceof URL,
+    `asUrl returned ${res.constructor} for value "http://test.com"`,
   );
-  asserts.assertEquals(
-    res2,
-    "http://test.com",
-    `asUrlObject returned ${res2} for value "http://test.com/"`,
-  );
-  asserts.assertEquals(
-    res3,
-    "http://test.com/test",
-    `asUrlObject returned ${res3} for value "http://test.com/test"`,
-  );
-  asserts.assertEquals(
-    res4,
-    "http://test.com/test",
-    `asUrlObject returned ${res4} for value "http://test.com/test/"`,
+});
+
+Deno.test("asUrl() should throw when given an invalid value argument", () => {
+  asserts.assertThrows(
+    () => asUrl("invalid"),
+    Error,
+    "should be a valid URL",
   );
 });
