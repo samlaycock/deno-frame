@@ -116,7 +116,7 @@ Deno.test('getLogLevel() should return "debug" when FRAME_LOG_LEVEL and LOG_LEVE
 
   asserts.assertEquals(
     res,
-    "debug",
+    "info",
     `getLogLevel() returned ${res} with FRAME_LOG_LEVEL and LOG_LEVEL not set`,
   );
 });
