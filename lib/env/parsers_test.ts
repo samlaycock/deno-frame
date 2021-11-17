@@ -57,6 +57,14 @@ Deno.test("asArray() should filter out empty values", () => {
   );
 });
 
+Deno.test("asArray() with 'options.of' should return an array of the expected type", () => {
+  const res1 = asArray("1,2,3", { of: "int" });
+  const res2 = asArray("true,false,1,0", { of: "boolean" });
+
+  asserts.assertEquals(res1, [1, 2, 3]);
+  asserts.assertEquals(res2, [true, false, true, false]);
+});
+
 /* asBoolean() */
 Deno.test("asBoolean() should return a boolean", () => {
   const res1 = asBoolean("TRUE");
