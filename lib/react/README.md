@@ -21,6 +21,9 @@ import React from "https://deno.land/x/frame/react/mod.ts";
 import { React } from "https://deno.land/x/frame/react/mod.ts";
 
 // and/or
+import { ReactDOM } from "https://deno.land/x/frame/react/mod.ts";
+
+// and/or
 import { ReactDOMServer } from "https://deno.land/x/frame/react/mod.ts";
 ```
 
