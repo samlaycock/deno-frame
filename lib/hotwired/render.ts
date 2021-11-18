@@ -1,5 +1,17 @@
 import { React, ReactDOMServer } from "./deps.ts";
 
-export default function render(element: React.ReactNode): string {
-  return ReactDOMServer.renderToStaticMarkup(element);
+interface ReactDomServerPackage {
+  renderToStaticMarkup: (
+    // deno-lint-ignore no-explicit-any
+    element: React.ReactElement<any, string | React.JSXElementConstructor<any>>,
+  ) => string;
+}
+
+export default function render(
+  // deno-lint-ignore no-explicit-any
+  element: React.ReactElement<any, string | React.JSXElementConstructor<any>>,
+): string {
+  return (ReactDOMServer as ReactDomServerPackage).renderToStaticMarkup(
+    element,
+  );
 }

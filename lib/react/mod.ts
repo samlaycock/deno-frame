@@ -1,3 +1,4 @@
-import { React, ReactDOM, ReactDOMServer } from "./deps.ts";
+import { React, ReactDOMServer } from "./deps.ts";
 
-export { React, ReactDOM, ReactDOMServer };
+export default React;
+export { React, ReactDOMServer };

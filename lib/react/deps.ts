@@ -1,5 +1,5 @@
-import React from "https://esm.sh/react@17.0.2?pin=v57";
-import ReactDOMServer from "https://esm.sh/react-dom@17.0.2/server?pin=v57";
-import ReactDOM from "https://esm.sh/react-dom@17.0.2?pin=v57";
+import "./process_polyfill.ts";
+import React from "https://cdn.skypack.dev/react@17.0.2?dts";
+import ReactDOMServer from "https://cdn.skypack.dev/react-dom@17.0.2/server";
 
-export { React, ReactDOM, ReactDOMServer };
+export { React, ReactDOMServer };

@@ -18,4 +18,4 @@ export default {
     this.consumeQueue = mock.spy();
     this.createQueueJob = mock.spy();
   },
-} as TestQueueDriver;
+};

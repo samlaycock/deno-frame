@@ -6,60 +6,6 @@ import type {
   QueueJob,
 } from "../../types.d.ts";
 
-interface SQSClient {
-  getQueueUrl: (
-    options: { QueueName: string },
-    httpOptions?: { abortSignal: AbortSignal },
-  ) => { QueueUrl: string };
-  createQueue: (
-    options: { QueueName: string },
-    httpOptions?: { abortSignal: AbortSignal },
-  ) => { QueueUrl: string };
-  receiveMessage: (
-    options: {
-      QueueUrl: string;
-      MaxNumberOfMessages?: number;
-      WaitTimeSeconds?: number;
-    },
-    httpOptions?: { abortSignal: AbortSignal },
-  ) => { Messages?: Array<SQSMessage> };
-  deleteMessage: (options: {
-    QueueUrl: string;
-    ReceiptHandle: string;
-  }, httpOptions?: { abortSignal: AbortSignal }) => Promise<void>;
-  sendMessage: (options: {
-    QueueUrl: string;
-    MessageBody?: string;
-    MessageAttributes?: SQSMessageAttribute;
-  }, httpOptions?: { abortSignal: AbortSignal }) => Promise<void>;
-}
-
-interface SQSClientConfig {
-  endpoint: string | undefined;
-  region: string | undefined;
-  credentials?: {
-    accessKeyId: string;
-    secretAccessKey: string;
-  };
-}
-
-interface SQSMessage {
-  MessageId?: string;
-  ReceiptHandle?: string;
-  MD5OfBody?: string;
-  Body: string;
-  Attributes?: Record<string, unknown>;
-  MD5OfMessageAttributes?: string;
-  MessageAttributes?: Record<string, unknown>;
-}
-
-interface SQSMessageAttributeValue {
-  DataType: string;
-  StringValue: string;
-}
-
-type SQSMessageAttribute = Record<string, SQSMessageAttributeValue>;
-
 const QUEUE_URL_CACHE = new Map();
 
 env.config({
@@ -80,18 +26,7 @@ env.config({
   SQS_URL: "urlString",
 });
 
-async function consumeQueue(
-  queue: string,
-  options: ConsumeQueueOptions,
-): Promise<QueueDriverController> {
-  const {
-    onQueueJob,
-    onSuccess,
-    onError,
-    context,
-    limit = 1,
-    interval = 20,
-  } = options;
+function createSQSClient() {
   const endpoint = env.get("SQS_URL");
   const region = env.get("FRAME_QUEUE_AWS_DEFAULT_REGION") ||
     env.get("QUEUE_AWS_DEFAULT_REGION") ||
@@ -104,12 +39,14 @@ async function consumeQueue(
   const secretAccessKey = env.get("FRAME_QUEUE_AWS_SECRET_ACCESS_KEY") ||
     env.get("QUEUE_AWS_SECRET_ACCESS_KEY") ||
     env.get("AWS_SECRET_ACCESS_KEY");
-  const clientOptions: SQSClientConfig = {
+  const clientOptions = {
     endpoint: endpoint as string | undefined,
     region: region as string | undefined,
+    credentials: undefined as undefined | {
+      accessKeyId?: string;
+      secretAccessKey?: string;
+    },
   };
-  let timeout: number;
-  let abortController: AbortController;
 
   if (typeof accessKeyId !== "undefined") {
     clientOptions.credentials = {
@@ -118,9 +55,27 @@ async function consumeQueue(
     };
   }
 
-  // deno-lint-ignore no-explicit-any
-  const client: SQSClient = new (AWS.SQS as any)({ ...clientOptions });
+  const client = new AWS.SQS({ ...clientOptions });
+
+  return client;
+}
+
+async function consumeQueue(
+  queue: string,
+  options: ConsumeQueueOptions,
+): Promise<QueueDriverController> {
+  const {
+    onQueueJob,
+    onSuccess,
+    onError,
+    context,
+    limit = 1,
+    interval = 20,
+  } = options;
+  const client = createSQSClient();
   let queueUrl = QUEUE_URL_CACHE.get(queue);
+  let timeout: number;
+  let abortController: AbortController;
 
   if (!queueUrl) {
     try {
@@ -158,20 +113,24 @@ async function consumeQueue(
       { abortSignal: abortController.signal },
     );
 
-    if ((messages as Array<SQSMessage>)?.length > 0) {
-      for (const message of messages as Array<SQSMessage>) {
+    if (messages?.length > 0) {
+      for (const message of messages) {
         const {
           MessageId: id,
           Body: body,
           MessageAttributes: metadata = {},
         } = message;
-        const sqsMetadata = Object.entries(metadata as SQSMessageAttribute)
+        const sqsMetadata = Object.entries(metadata)
           .reduce<
             Record<string, string | number>
           >((result, [key, value]) => {
-            result[key] = value.DataType === "Number"
-              ? parseInt(value.StringValue, 10)
-              : value.StringValue;
+            result[key] =
+              (value as Record<string, unknown>)?.DataType === "Number"
+                ? parseInt(
+                  (value as Record<string, unknown>)?.StringValue as string,
+                  10,
+                )
+                : (value as Record<string, unknown>)?.StringValue as string;
 
             return result;
           }, {});
@@ -243,32 +202,7 @@ async function createQueueJob(
   queue: string,
   queueJob: QueueJob,
 ): Promise<void> {
-  const endpoint = env.get("SQS_URL");
-  const region = env.get("FRAME_QUEUE_AWS_DEFAULT_REGION") ||
-    env.get("QUEUE_AWS_DEFAULT_REGION") ||
-    env.get("AWS_DEFAULT_REGION") ||
-    env.get("AWS_REGION");
-  const accessKeyId = env.get("FRAME_QUEUE_AWS_DEFAULT_REGION") ||
-    env.get("QUEUE_AWS_DEFAULT_REGION") ||
-    env.get("AWS_DEFAULT_REGION") ||
-    env.get("AWS_REGION");
-  const secretAccessKey = env.get("FRAME_QUEUE_AWS_SECRET_ACCESS_KEY") ||
-    env.get("QUEUE_AWS_SECRET_ACCESS_KEY") ||
-    env.get("AWS_SECRET_ACCESS_KEY");
-  const clientOptions: SQSClientConfig = {
-    endpoint: endpoint as string | undefined,
-    region: region as string | undefined,
-  };
-
-  if (typeof accessKeyId !== "undefined") {
-    clientOptions.credentials = {
-      accessKeyId: accessKeyId as string,
-      secretAccessKey: secretAccessKey as string,
-    };
-  }
-
-  // deno-lint-ignore no-explicit-any
-  const client: SQSClient = new (AWS.SQS as any)({ ...clientOptions });
+  const client = createSQSClient();
   let queueUrl = QUEUE_URL_CACHE.get(queue);
   let queueBody = queueJob.body;
 
@@ -293,7 +227,7 @@ async function createQueueJob(
   }
 
   const sqsMetadata = Object.entries(queueJob.metadata || {}).reduce<
-    SQSMessageAttribute
+    Record<string, { DataType: string; StringValue: string }>
   >(
     (result, [key, value]) => {
       const entry = {

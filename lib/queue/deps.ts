@@ -1,4 +1,4 @@
-import * as SQS from "https://esm.sh/@aws-sdk/client-sqs@3.41.0?pin=v57&no-check";
+import * as SQS from "https://cdn.skypack.dev/@aws-sdk/client-sqs@v3.41.0";
 import env from "../env/mod.ts";
 
 const AWS = { ...SQS };
