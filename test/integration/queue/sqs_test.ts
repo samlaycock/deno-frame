@@ -1,12 +1,7 @@
 import { asserts } from "../dev_deps.ts";
 import env from "../../../lib/env/mod.ts";
 import queue from "../../../lib/queue/mod.ts";
-
-function sleep(ms: number) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
+import { sleep } from "../_util/util.ts";
 
 Deno.test({
   name: "SQS queue driver should receive and process queue messages from SQS",
@@ -14,7 +9,7 @@ Deno.test({
     env.set("AWS_DEFAULT_REGION", "test");
     env.set("AWS_ACCESS_KEY_ID", "access_key_id");
     env.set("AWS_SECRET_ACCESS_KEY", "secret_access_key");
-    env.set("SQS_URL", "http://localhost:9324");
+    env.set("SQS_URL", new URL("http://localhost:9324"));
 
     const queueName = "test";
     const processed: Array<unknown> = [];
