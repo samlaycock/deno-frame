@@ -40,7 +40,9 @@ function createSQSClient() {
     env.get("QUEUE_AWS_SECRET_ACCESS_KEY") ||
     env.get("AWS_SECRET_ACCESS_KEY");
   const clientOptions = {
-    endpoint: endpoint as string | undefined,
+    endpoint: endpoint
+      ? (endpoint as URL).toString().replace(/\/$/, "")
+      : undefined,
     region: region as string | undefined,
     credentials: undefined as undefined | {
       accessKeyId?: string;
