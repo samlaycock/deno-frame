@@ -2,8 +2,20 @@ import type { EnvParser } from "./types.d.ts";
 
 export function asString(
   value: string,
-  options?: { enum?: Array<string> },
+  options?: { min?: number; max?: number; enum?: Array<string> },
 ) {
+  if (typeof options?.min === "number" && value.length < options.min) {
+    throw new Error(
+      `should be a string with at least ${options.min} characters`,
+    );
+  }
+
+  if (typeof options?.max === "number" && value.length > options.max) {
+    throw new Error(
+      `should be a string with no more than ${options.max} characters`,
+    );
+  }
+
   if (options?.enum && options.enum.indexOf(value) < 0) {
     throw new Error(`should be one of ${options.enum.join(", ")}`);
   }
@@ -13,7 +25,7 @@ export function asString(
 
 export function asArray(
   value: string,
-  options?: { delimiter?: string; of?: EnvParser },
+  options?: { delimiter?: string; of?: EnvParser; min?: number; max?: number },
 ): Array<string> {
   const vals = value.split(options?.delimiter || ",").filter((item) =>
     Boolean(item)
@@ -31,6 +43,14 @@ export function asArray(
           value,
         )
     );
+  }
+
+  if (typeof options?.min === "number" && vals.length < options.min) {
+    throw new Error(`should be an array of at least ${options.min} items`);
+  }
+
+  if (typeof options?.max === "number" && vals.length > options.max) {
+    throw new Error(`should be an array of no more than ${options.max} items`);
   }
 
   return vals;
@@ -60,12 +80,29 @@ export function asBoolean(
 
 export function asFloat(
   value: string,
-  options?: { positive?: boolean; negative?: boolean },
+  options?: {
+    min?: number;
+    max?: number;
+    positive?: boolean;
+    negative?: boolean;
+  },
 ): number {
   const val = parseFloat(value);
 
   if (isNaN(val) || val.toString() !== value) {
     throw new Error("should be a valid float");
+  }
+
+  if (typeof options?.min === "number" && val < options.min) {
+    throw new Error(
+      `should be a float greater than or equal to ${options.min}`,
+    );
+  }
+
+  if (typeof options?.max === "number" && val > options.max) {
+    throw new Error(
+      `should be a float less than or equal to ${options.max}`,
+    );
   }
 
   if (options?.positive && val < 0) {
@@ -79,12 +116,30 @@ export function asFloat(
 
 export function asInt(
   value: string,
-  options?: { positive?: boolean; negative?: boolean; port?: boolean },
+  options?: {
+    min?: number;
+    max?: number;
+    positive?: boolean;
+    negative?: boolean;
+    port?: boolean;
+  },
 ): number {
   const val = parseInt(value, 10);
 
   if (isNaN(val) || val.toString(10) !== value) {
     throw new Error("should be a valid integer");
+  }
+
+  if (typeof options?.min === "number" && val < options.min) {
+    throw new Error(
+      `should be an integer greater than or equal to ${options.min}`,
+    );
+  }
+
+  if (typeof options?.max === "number" && val > options.max) {
+    throw new Error(
+      `should be an integer less than or equal to ${options.max}`,
+    );
   }
 
   if (options?.positive && val < 0) {

@@ -65,6 +65,22 @@ Deno.test("asArray() with 'options.of' should return an array of the expected ty
   asserts.assertEquals(res2, [true, false, true, false]);
 });
 
+Deno.test("asArray() with 'options.min' should throw if the array is too small", () => {
+  asserts.assertThrows(
+    () => asArray("one,two,three", { min: 4 }),
+    Error,
+    "should be an array of at least 4 items",
+  );
+});
+
+Deno.test("asArray() with 'options.max' should throw if the array is too big", () => {
+  asserts.assertThrows(
+    () => asArray("one,two,three", { max: 2 }),
+    Error,
+    "should be an array of no more than 2 items",
+  );
+});
+
 /* asBoolean() */
 Deno.test("asBoolean() should return a boolean", () => {
   const res1 = asBoolean("TRUE");
@@ -259,6 +275,22 @@ Deno.test("asFloat() with 'options.positive' should throw when given an invalid 
   );
 });
 
+Deno.test("asFloat() with 'options.min' should throw if the float is too small", () => {
+  asserts.assertThrows(
+    () => asFloat("0.5", { min: 1 }),
+    Error,
+    "should be a float greater than or equal to 1",
+  );
+});
+
+Deno.test("asFloat() with 'options.max' should throw if the float is too big", () => {
+  asserts.assertThrows(
+    () => asFloat("1.5", { max: 1 }),
+    Error,
+    "should be a float less than or equal to 1",
+  );
+});
+
 /* asInt() */
 Deno.test("asInt() should return a number", () => {
   const res = asInt("1");
@@ -339,6 +371,22 @@ Deno.test("asInt() with 'options.port' should throw when given an invalid value 
     () => asInt("99999", { port: true }),
     Error,
     "should a port number no greater than 65535",
+  );
+});
+
+Deno.test("asInt() with 'options.min' should throw if the integer is too small", () => {
+  asserts.assertThrows(
+    () => asInt("0", { min: 1 }),
+    Error,
+    "should be an integer greater than or equal to 1",
+  );
+});
+
+Deno.test("asInt() with 'options.max' should throw if the integer is too big", () => {
+  asserts.assertThrows(
+    () => asInt("2", { max: 1 }),
+    Error,
+    "should be an integer less than or equal to 1",
   );
 });
 
@@ -535,7 +583,23 @@ Deno.test("asString() with 'options.enum' should throw when given an invalid val
   );
 });
 
-/* asUrlObject() */
+Deno.test("asString() with 'options.min' should throw if the string is too short", () => {
+  asserts.assertThrows(
+    () => asString("test", { min: 5 }),
+    Error,
+    "should be a string with at least 5 characters",
+  );
+});
+
+Deno.test("asString() with 'options.max' should throw if the string is too long", () => {
+  asserts.assertThrows(
+    () => asString("test", { max: 3 }),
+    Error,
+    "should be a string with no more than 3 characters",
+  );
+});
+
+/* asUrl() */
 Deno.test("asUrl() should return a URL instance", () => {
   const res = asUrl("http://test.com");
 

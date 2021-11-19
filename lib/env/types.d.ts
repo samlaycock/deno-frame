@@ -16,6 +16,8 @@ export interface EnvParserOptions {
   delimiter?: string;
   of?: EnvParser;
   strict?: boolean;
+  min?: number;
+  max?: number;
   positive?: boolean;
   negative?: boolean;
   port?: boolean;
