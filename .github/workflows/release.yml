@@ -82,14 +82,14 @@ jobs:
       #   run: docker compose -f test/docker-compose.yml down cassandra
 
       # Redis
-      # - name: Start local Redis
-      #   run: docker compose -f test/docker-compose.yml up -d redis
+      - name: Start local Redis
+        run: docker compose -f test/docker-compose.yml up -d redis
 
-      # - name: Run integration tests
-      #   run: deno test --allow-all test/integration/**/redis_test.ts
+      - name: Run integration tests
+        run: deno test --allow-all test/integration/**/redis_test.ts
 
-      # - name: Stop local Redis
-      #   run: docker compose -f test/docker-compose.yml down redis
+      - name: Stop local Redis
+        run: docker compose -f test/docker-compose.yml down redis
 
       # NATS
       # - name: Start local NATS
