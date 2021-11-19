@@ -23,7 +23,7 @@ env.config({
   AWS_DEFAULT_REGION: "string",
   AWS_REGION: "string",
   /* SQS */
-  SQS_URL: "urlString",
+  SQS_URL: "url",
 });
 
 function createSQSClient() {
