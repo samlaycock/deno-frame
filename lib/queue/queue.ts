@@ -14,7 +14,7 @@ export async function consumeQueue(
   const queueDriverType = getQueueDriver();
   const queueDriver = typeof options?.driver === "object"
     ? options.driver
-    : drivers[options.driver || queueDriverType];
+    : drivers[options?.driver || queueDriverType];
 
   options.context = options.context || {};
 
@@ -38,4 +38,7 @@ export async function createQueueJob(
   await queueDriver.createQueueJob(queue, queueJob);
 }
 
-export default { consumeQueue, createQueueJob };
+export default {
+  consumeQueue,
+  createQueueJob,
+};
