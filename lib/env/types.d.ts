@@ -6,8 +6,7 @@ export type EnvParser =
   | "json"
   | "regExp"
   | "string"
-  | "urlObject"
-  | "urlString";
+  | "url";
 
 export interface EnvParserOptions {
   as: EnvParser;
