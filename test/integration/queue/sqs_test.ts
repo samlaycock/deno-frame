@@ -6,6 +6,7 @@ import { sleep } from "../_util/util.ts";
 Deno.test({
   name: "SQS queue driver should receive and process queue messages from SQS",
   fn: async () => {
+    env.set("FRAME_QUEUE_DRIVER", "sqs");
     env.set("AWS_DEFAULT_REGION", "test");
     env.set("AWS_ACCESS_KEY_ID", "access_key_id");
     env.set("AWS_SECRET_ACCESS_KEY", "secret_access_key");
@@ -46,6 +47,7 @@ Deno.test({
 
     asserts.assertEquals(queueJobs, processed);
 
+    env.unset("FRAME_QUEUE_DRIVER");
     env.unset("AWS_DEFAULT_REGION");
     env.unset("AWS_ACCESS_KEY_ID");
     env.unset("AWS_SECRET_ACCESS_KEY");
