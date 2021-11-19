@@ -45,15 +45,10 @@ Deno.test("queue.consumeQueue() should call the given 'option.driver's consumeQu
 });
 
 Deno.test("queue.consumeQueue() should call 'options.context' if it is a function", () => {
-  const driver = {
-    name: "test",
-    consumeQueue: mock.spy(),
-    createQueueJob: mock.spy(),
-  };
   const context = mock.spy();
   const queueName = "test";
   const options = {
-    driver,
+    driver: "test" as QueueDriverType,
     context,
     onQueueJob: () => {},
   };
