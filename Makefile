@@ -13,7 +13,7 @@ fmt:
 	deno fmt --config=deno.json --check
 
 cache:
-	deno cache lib/$(MODULE)/*deps.ts
+	deno cache --no-check lib/$(MODULE)/*deps.ts
 
 test:
 	make test_clean

@@ -38,7 +38,7 @@ jobs:
           deno-version: v1.16.x
 
       - name: Cache dependencies
-        run: deno cache lib/**/*deps.ts
+        run: deno cache --no-check lib/**/*deps.ts
 
       - name: Run tests
-        run: deno test --allow-all lib
+        run: deno test --no-check --allow-all lib
