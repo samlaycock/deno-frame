@@ -1,6 +1,6 @@
 import { env, redis } from "../../deps.ts";
 
-env.config({
+await env.load({
   REDIS_URL: "url",
 });
 

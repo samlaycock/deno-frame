@@ -24,7 +24,7 @@ Deno.test("logger.debug() should log only when FRAME_LOG_LEVEL is debug, warn or
     } with FRAME_LOG_LEVEL set to "info"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "debug");
 
@@ -39,7 +39,7 @@ Deno.test("logger.debug() should log only when FRAME_LOG_LEVEL is debug, warn or
     } with FRAME_LOG_LEVEL set to "debug"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "warn");
 
@@ -54,7 +54,7 @@ Deno.test("logger.debug() should log only when FRAME_LOG_LEVEL is debug, warn or
     } with FRAME_LOG_LEVEL set to "warn"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "error");
 
@@ -69,7 +69,7 @@ Deno.test("logger.debug() should log only when FRAME_LOG_LEVEL is debug, warn or
     } with FRAME_LOG_LEVEL set to "error"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "none");
 
@@ -84,7 +84,7 @@ Deno.test("logger.debug() should log only when FRAME_LOG_LEVEL is debug, warn or
     } with FRAME_LOG_LEVEL set to "none"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   testDriver.reset();
 });
@@ -103,7 +103,7 @@ Deno.test("logger.debug() should log only when LOG_LEVEL is debug, warn or error
     } with LOG_LEVEL set to "info"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "debug");
 
@@ -118,7 +118,7 @@ Deno.test("logger.debug() should log only when LOG_LEVEL is debug, warn or error
     } with LOG_LEVEL set to "debug"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "warn");
 
@@ -133,7 +133,7 @@ Deno.test("logger.debug() should log only when LOG_LEVEL is debug, warn or error
     } with LOG_LEVEL set to "warn"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "error");
 
@@ -148,7 +148,7 @@ Deno.test("logger.debug() should log only when LOG_LEVEL is debug, warn or error
     } with LOG_LEVEL set to "error"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "none");
 
@@ -163,7 +163,7 @@ Deno.test("logger.debug() should log only when LOG_LEVEL is debug, warn or error
     } with LOG_LEVEL set to "none"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   testDriver.reset();
 });
@@ -184,7 +184,7 @@ Deno.test("logger.debug() should log correctly when given a namespace argument",
     } with namespace set to "${namespace}"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   testDriver.reset();
 });
@@ -204,7 +204,7 @@ Deno.test("logger.debug() should use the given 'options.driver' instance", () =>
     [`${DEBUG_PREFIX} -`, "test"],
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 });
 
 /* error() */
@@ -222,7 +222,7 @@ Deno.test("logger.error() should log only when FRAME_LOG_LEVEL is not none", () 
     } with FRAME_LOG_LEVEL set to "info"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "debug");
 
@@ -237,7 +237,7 @@ Deno.test("logger.error() should log only when FRAME_LOG_LEVEL is not none", () 
     } with FRAME_LOG_LEVEL set to "debug"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "warn");
 
@@ -252,7 +252,7 @@ Deno.test("logger.error() should log only when FRAME_LOG_LEVEL is not none", () 
     } with FRAME_LOG_LEVEL set to "warn"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "error");
 
@@ -267,7 +267,7 @@ Deno.test("logger.error() should log only when FRAME_LOG_LEVEL is not none", () 
     } with FRAME_LOG_LEVEL set to "error"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "none");
 
@@ -282,7 +282,7 @@ Deno.test("logger.error() should log only when FRAME_LOG_LEVEL is not none", () 
     } with FRAME_LOG_LEVEL set to "none"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   testDriver.reset();
 });
@@ -301,7 +301,7 @@ Deno.test("logger.error() should log only when LOG_LEVEL is not none", () => {
     } with LOG_LEVEL set to "info"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "debug");
 
@@ -316,7 +316,7 @@ Deno.test("logger.error() should log only when LOG_LEVEL is not none", () => {
     } with LOG_LEVEL set to "debug"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "warn");
 
@@ -331,7 +331,7 @@ Deno.test("logger.error() should log only when LOG_LEVEL is not none", () => {
     } with LOG_LEVEL set to "warn"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "error");
 
@@ -346,7 +346,7 @@ Deno.test("logger.error() should log only when LOG_LEVEL is not none", () => {
     } with LOG_LEVEL set to "error"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "none");
 
@@ -361,7 +361,7 @@ Deno.test("logger.error() should log only when LOG_LEVEL is not none", () => {
     } with LOG_LEVEL set to "none"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   testDriver.reset();
 });
@@ -382,7 +382,7 @@ Deno.test("logger.error() should log correctly when given a namespace argument",
     } with namespace set to "${namespace}"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   testDriver.reset();
 });
@@ -402,7 +402,7 @@ Deno.test("logger.error() should use the given 'options.driver' instance", () =>
     [`${ERROR_PREFIX} -`, "test"],
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 });
 
 /* info() */
@@ -420,7 +420,7 @@ Deno.test("logger.info() should log only when FRAME_LOG_LEVEL is info, debug, wa
     } with FRAME_LOG_LEVEL set to "info"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "debug");
 
@@ -435,7 +435,7 @@ Deno.test("logger.info() should log only when FRAME_LOG_LEVEL is info, debug, wa
     } with FRAME_LOG_LEVEL set to "debug"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "warn");
 
@@ -450,7 +450,7 @@ Deno.test("logger.info() should log only when FRAME_LOG_LEVEL is info, debug, wa
     } with FRAME_LOG_LEVEL set to "warn"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "error");
 
@@ -465,7 +465,7 @@ Deno.test("logger.info() should log only when FRAME_LOG_LEVEL is info, debug, wa
     } with FRAME_LOG_LEVEL set to "error"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "none");
 
@@ -480,7 +480,7 @@ Deno.test("logger.info() should log only when FRAME_LOG_LEVEL is info, debug, wa
     } with FRAME_LOG_LEVEL set to "none"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   testDriver.reset();
 });
@@ -499,7 +499,7 @@ Deno.test("logger.info() should log only when LOG_LEVEL is info, debug, warn or 
     } with LOG_LEVEL set to "info"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "debug");
 
@@ -514,7 +514,7 @@ Deno.test("logger.info() should log only when LOG_LEVEL is info, debug, warn or 
     } with LOG_LEVEL set to "debug"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "warn");
 
@@ -529,7 +529,7 @@ Deno.test("logger.info() should log only when LOG_LEVEL is info, debug, warn or 
     } with LOG_LEVEL set to "warn"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "error");
 
@@ -544,7 +544,7 @@ Deno.test("logger.info() should log only when LOG_LEVEL is info, debug, warn or 
     } with LOG_LEVEL set to "error"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "none");
 
@@ -559,7 +559,7 @@ Deno.test("logger.info() should log only when LOG_LEVEL is info, debug, warn or 
     } with LOG_LEVEL set to "none"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   testDriver.reset();
 });
@@ -580,7 +580,7 @@ Deno.test("logger.info() should log correctly when given a namespace argument", 
     } with namespace set to "${namespace}"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   testDriver.reset();
 });
@@ -600,7 +600,7 @@ Deno.test("logger.info() should use the given 'options.driver' instance", () => 
     [`${INFO_PREFIX} -`, "test"],
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 });
 
 /* warn */
@@ -618,7 +618,7 @@ Deno.test("logger.warn() should log only when FRAME_LOG_LEVEL is warn or error",
     } with FRAME_LOG_LEVEL set to "info"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "debug");
 
@@ -633,7 +633,7 @@ Deno.test("logger.warn() should log only when FRAME_LOG_LEVEL is warn or error",
     } with FRAME_LOG_LEVEL set to "debug"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "warn");
 
@@ -648,7 +648,7 @@ Deno.test("logger.warn() should log only when FRAME_LOG_LEVEL is warn or error",
     } with FRAME_LOG_LEVEL set to "warn"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "error");
 
@@ -663,7 +663,7 @@ Deno.test("logger.warn() should log only when FRAME_LOG_LEVEL is warn or error",
     } with FRAME_LOG_LEVEL set to "error"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   env.set("FRAME_LOG_LEVEL", "none");
 
@@ -678,7 +678,7 @@ Deno.test("logger.warn() should log only when FRAME_LOG_LEVEL is warn or error",
     } with FRAME_LOG_LEVEL set to "none"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   testDriver.reset();
 });
@@ -697,7 +697,7 @@ Deno.test("logger.warn() should log only when LOG_LEVEL is warn or error", () =>
     } with LOG_LEVEL set to "info"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "debug");
 
@@ -712,7 +712,7 @@ Deno.test("logger.warn() should log only when LOG_LEVEL is warn or error", () =>
     } with LOG_LEVEL set to "debug"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "warn");
 
@@ -727,7 +727,7 @@ Deno.test("logger.warn() should log only when LOG_LEVEL is warn or error", () =>
     } with LOG_LEVEL set to "warn"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "error");
 
@@ -742,7 +742,7 @@ Deno.test("logger.warn() should log only when LOG_LEVEL is warn or error", () =>
     } with LOG_LEVEL set to "error"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   env.set("LOG_LEVEL", "none");
 
@@ -757,7 +757,7 @@ Deno.test("logger.warn() should log only when LOG_LEVEL is warn or error", () =>
     } with LOG_LEVEL set to "none"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 
   testDriver.reset();
 });
@@ -778,7 +778,7 @@ Deno.test("logger.warn() should log correctly when given a namespace argument", 
     } with namespace set to "${namespace}"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 
   testDriver.reset();
 });
@@ -798,5 +798,5 @@ Deno.test("logger.warn() should use the given 'options.driver' instance", () => 
     [`${WARN_PREFIX} -`, "test"],
   );
 
-  env.unset("FRAME_LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
 });

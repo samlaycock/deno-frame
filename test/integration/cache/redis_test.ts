@@ -27,8 +27,8 @@ Deno.test({
 
     asserts.assertEquals(result3, null);
 
-    env.unset("FRAME_CACHE_DRIVER");
-    env.unset("REDIS_URL");
+    env.delete("FRAME_CACHE_DRIVER");
+    env.delete("REDIS_URL");
   },
   sanitizeResources: false,
   sanitizeOps: false,

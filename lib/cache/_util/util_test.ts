@@ -10,7 +10,7 @@ Deno.test("getCacheDriver() should return the correct driver when FRAME_CACHE_DR
 
   asserts.assertEquals(result, "test");
 
-  env.unset("FRAME_CACHE_DRIVER");
+  env.delete("FRAME_CACHE_DRIVER");
 });
 
 Deno.test("getCacheDriver() should return the correct driver when CACHE_DRIVER is set", () => {
@@ -20,5 +20,5 @@ Deno.test("getCacheDriver() should return the correct driver when CACHE_DRIVER i
 
   asserts.assertEquals(result, "test");
 
-  env.unset("CACHE_DRIVER");
+  env.delete("CACHE_DRIVER");
 });

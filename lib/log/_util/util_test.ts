@@ -23,7 +23,7 @@ Deno.test("getLogDriver() should return the correct driver when FRAME_LOG_LEVEL 
 
   asserts.assertEquals(result, "test");
 
-  env.unset("FRAME_LOG_DRIVER");
+  env.delete("FRAME_LOG_DRIVER");
 });
 
 Deno.test("getLogDriver() should return the correct driver when LOG_LEVEL is set", () => {
@@ -33,7 +33,7 @@ Deno.test("getLogDriver() should return the correct driver when LOG_LEVEL is set
 
   asserts.assertEquals(result, "test");
 
-  env.unset("LOG_DRIVER");
+  env.delete("LOG_DRIVER");
 });
 
 Deno.test("getLogDriver() should return the correct default driver when FRAME_LOG_LEVEL and LOG_LEVEL are not set", () => {
@@ -91,8 +91,8 @@ Deno.test("getLogLevel() should return FRAME_LOG_LEVEL when set", () => {
     `getLogLevel() returned ${res} with FRAME_LOG_LEVEL set to "${logLevel}"`,
   );
 
-  env.unset("FRAME_LOG_LEVEL");
-  env.unset("LOG_LEVEL");
+  env.delete("FRAME_LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 });
 
 Deno.test("getLogLevel() should return LOG_LEVEL when set", () => {
@@ -108,7 +108,7 @@ Deno.test("getLogLevel() should return LOG_LEVEL when set", () => {
     `getLogLevel() returned ${res} with LOG_LEVEL set to "${logLevel}"`,
   );
 
-  env.unset("LOG_LEVEL");
+  env.delete("LOG_LEVEL");
 });
 
 Deno.test('getLogLevel() should return "debug" when FRAME_LOG_LEVEL and LOG_LEVEL are not set', () => {

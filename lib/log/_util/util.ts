@@ -2,7 +2,7 @@ import { env } from "../deps.ts";
 import { LOG_DRIVERS, LOG_LEVELS } from "../constants.ts";
 import type { LogDriverType, LoggerOptions, LogLevel } from "../types.d.ts";
 
-env.config({
+await env.load({
   FRAME_LOG_DRIVER: {
     as: "string",
     enum: LOG_DRIVERS,

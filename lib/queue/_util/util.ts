@@ -2,7 +2,7 @@ import { env } from "../deps.ts";
 import { QUEUE_DRIVERS } from "../constants.ts";
 import type { QueueDriverType } from "../types.d.ts";
 
-env.config({
+await env.load({
   FRAME_QUEUE_DRIVER: {
     as: "string",
     enum: QUEUE_DRIVERS,

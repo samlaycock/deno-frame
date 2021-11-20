@@ -8,36 +8,31 @@ import type {
 
 const QUEUE_URL_CACHE = new Map();
 
-env.config({
+await env.load({
+  /* Region */
+  SQS_AWS_DEFAULT_REGION: "string",
+  AWS_DEFAULT_REGION: "string",
+  SQS_AWS_REGION: "string",
+  AWS_REGION: "string",
   /* Access Key ID */
-  FRAME_QUEUE_AWS_ACCESS_KEY_ID: "string",
-  QUEUE_AWS_ACCESS_KEY_ID: "string",
+  SQS_AWS_ACCESS_KEY_ID: "string",
   AWS_ACCESS_KEY_ID: "string",
   /* Secret Access Key */
-  FRAME_QUEUE_AWS_SECRET_ACCESS_KEY: "string",
-  QUEUE_AWS_SECRET_ACCESS_KEY: "string",
+  SQS_AWS_SECRET_ACCESS_KEY: "string",
   AWS_SECRET_ACCESS_KEY: "string",
-  /* Region */
-  FRAME_QUEUE_AWS_DEFAULT_REGION: "string",
-  QUEUE_AWS_DEFAULT_REGION: "string",
-  AWS_DEFAULT_REGION: "string",
-  AWS_REGION: "string",
   /* SQS */
   SQS_URL: "url",
 });
 
 function createSQSClient() {
   const endpoint = env.get("SQS_URL");
-  const region = env.get("FRAME_QUEUE_AWS_DEFAULT_REGION") ||
-    env.get("QUEUE_AWS_DEFAULT_REGION") ||
+  const region = env.get("SQS_AWS_DEFAULT_REGION") ||
     env.get("AWS_DEFAULT_REGION") ||
+    env.get("SQS_AWS_REGION") ||
     env.get("AWS_REGION");
-  const accessKeyId = env.get("FRAME_QUEUE_AWS_DEFAULT_REGION") ||
-    env.get("QUEUE_AWS_DEFAULT_REGION") ||
-    env.get("AWS_DEFAULT_REGION") ||
-    env.get("AWS_REGION");
-  const secretAccessKey = env.get("FRAME_QUEUE_AWS_SECRET_ACCESS_KEY") ||
-    env.get("QUEUE_AWS_SECRET_ACCESS_KEY") ||
+  const accessKeyId = env.get("SQS_AWS_ACCESS_KEY_ID") ||
+    env.get("AWS_ACCESS_KEY_ID");
+  const secretAccessKey = env.get("SQS_AWS_SECRET_ACCESS_KEY") ||
     env.get("AWS_SECRET_ACCESS_KEY");
   const clientOptions = {
     endpoint: endpoint
@@ -57,7 +52,7 @@ function createSQSClient() {
     };
   }
 
-  const client = new AWS.SQS({ ...clientOptions });
+  const client = new AWS.SQS(clientOptions);
 
   return client;
 }

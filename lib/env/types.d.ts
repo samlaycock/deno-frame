@@ -1,3 +1,7 @@
+export interface EnvDriver {
+  load: (values: EnvValues) => void | Promise<void>;
+}
+
 export type EnvParser =
   | "array"
   | "boolean"
@@ -27,3 +31,7 @@ export interface EnvParserOptions {
 }
 
 export type EnvValues = Record<string, EnvParser | EnvParserOptions>;
+
+export interface EnvOptions {
+  driver?: EnvDriver;
+}

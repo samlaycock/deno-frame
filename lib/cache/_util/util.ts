@@ -2,7 +2,7 @@ import { env } from "../deps.ts";
 import { CACHE_DRIVERS } from "../constants.ts";
 import type { CacheDriverType } from "../types.d.ts";
 
-env.config({
+await env.load({
   FRAME_CACHE_DRIVER: {
     as: "string",
     enum: CACHE_DRIVERS,

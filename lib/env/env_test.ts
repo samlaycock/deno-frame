@@ -1,11 +1,11 @@
-import { asserts } from "./dev_deps.ts";
+import { asserts, mock } from "./dev_deps.ts";
 import env from "./env.ts";
 import internalCache from "./internal_cache.ts";
 import { ENV_PARSERS } from "./constants.ts";
 import type { EnvParser, EnvParserOptions } from "./types.d.ts";
 
-/* env.config() */
-Deno.test("env.config() should set the correct value to the cache", () => {
+/* env.load() */
+Deno.test("env.load() should set the correct value to the cache", async () => {
   const key1 = "TEST_1";
   const key2 = "TEST_2";
   const key3 = "TEST_£";
@@ -15,7 +15,11 @@ Deno.test("env.config() should set the correct value to the cache", () => {
   Deno.env.set(key1, value1);
   Deno.env.set(key2, value2);
 
-  env.config({ [key1]: "string", [key2]: { as: "string" }, [key3]: "string" });
+  await env.load({
+    [key1]: "string",
+    [key2]: { as: "string" },
+    [key3]: "string",
+  });
 
   asserts.assert(
     internalCache.has(key1),
@@ -45,34 +49,34 @@ Deno.test("env.config() should set the correct value to the cache", () => {
   Deno.env.delete(key2);
 });
 
-Deno.test("env.config() should throw when given in invalid values argument", () => {
-  asserts.assertThrows(
+Deno.test("env.load() should throw when given in invalid values argument", () => {
+  asserts.assertThrowsAsync(
     () =>
-      env.config(
+      env.load(
         ("invalid" as unknown) as Record<string, EnvParser | EnvParserOptions>,
       ),
     Error,
     "'values' must be an object",
   );
-  asserts.assertThrows(
+  asserts.assertThrowsAsync(
     () =>
-      env.config(
+      env.load(
         (1 as unknown) as Record<string, EnvParser | EnvParserOptions>,
       ),
     Error,
     "'values' must be an object",
   );
-  asserts.assertThrows(
+  asserts.assertThrowsAsync(
     () =>
-      env.config(
+      env.load(
         (true as unknown) as Record<string, EnvParser | EnvParserOptions>,
       ),
     Error,
     "'values' must be an object",
   );
-  asserts.assertThrows(
+  asserts.assertThrowsAsync(
     () =>
-      env.config(
+      env.load(
         (["invalid"] as unknown) as Record<
           string,
           EnvParser | EnvParserOptions
@@ -83,21 +87,21 @@ Deno.test("env.config() should throw when given in invalid values argument", () 
   );
 });
 
-Deno.test("env.config() should throw when passed an invalid parser argument", () => {
+Deno.test("env.load() should throw when passed an invalid parser argument", () => {
   const key = "TEST";
   const value = "test";
 
   Deno.env.set(key, value);
 
-  asserts.assertThrows(
-    () => env.config({ [key]: "invalid" as EnvParser }),
+  asserts.assertThrowsAsync(
+    () => env.load({ [key]: "invalid" as EnvParser }),
     Error,
     `Invalid 'parser' "invalid" for "${key}" (must be one of ${
       ENV_PARSERS.join(", ")
     })`,
   );
-  asserts.assertThrows(
-    () => env.config({ [key]: { as: "invalid" as EnvParser } }),
+  asserts.assertThrowsAsync(
+    () => env.load({ [key]: { as: "invalid" as EnvParser } }),
     Error,
     `Invalid 'parser.as' "invalid" for "${key}" (must be one of ${
       ENV_PARSERS.join(", ")
@@ -107,14 +111,14 @@ Deno.test("env.config() should throw when passed an invalid parser argument", ()
   Deno.env.delete(key);
 });
 
-Deno.test("env.config() should throw when an invalid value is parsed from environment variables", () => {
+Deno.test("env.load() should throw when an invalid value is parsed from environment variables", () => {
   const key = "TEST";
   const value = "test";
 
   Deno.env.set(key, value);
 
-  asserts.assertThrows(
-    () => env.config({ [key]: { as: "string", enum: ["other"] } }),
+  asserts.assertThrowsAsync(
+    () => env.load({ [key]: { as: "string", enum: ["other"] } }),
     Error,
     `"${key}" should be one of other`,
   );
@@ -122,15 +126,30 @@ Deno.test("env.config() should throw when an invalid value is parsed from enviro
   Deno.env.delete(key);
 });
 
-Deno.test("env.config() should return the given default value if a value isn't set in environment variables", () => {
+Deno.test("env.load() should return the given default value if a value isn't set in environment variables", async () => {
   const key = "TEST";
   const value = "test";
 
-  env.config({ [key]: { as: "string", default: value } });
+  await env.load({ [key]: { as: "string", default: value } });
 
   const result = env.get(key);
 
   asserts.assertEquals(result, value);
+});
+
+Deno.test("env.load() should use the given 'options.driver' to preload environment variables", async () => {
+  const key = "TEST";
+  const value = "test";
+  const driver = {
+    load: mock.spy(),
+  };
+
+  await env.load({ [key]: { as: "string", default: value } }, { driver });
+
+  asserts.assertEquals(
+    driver.load.calls[0]?.args,
+    [{ [key]: { as: "string", default: value } }],
+  );
 });
 
 /* env.get() */
@@ -237,8 +256,8 @@ Deno.test("env.set() should throw when given an invalid 'value' argument", () =>
   );
 });
 
-/* env.unset() */
-Deno.test("env.unset() should unset the given 'key' argument", () => {
+/* env.delete() */
+Deno.test("env.delete() should delete the given 'key' argument", () => {
   const key = "TEST";
   const value = "test";
 
@@ -246,7 +265,7 @@ Deno.test("env.unset() should unset the given 'key' argument", () => {
 
   asserts.assertEquals(env.get(key), value);
 
-  env.unset(key);
+  env.delete(key);
 
   asserts.assertEquals(env.get(key), undefined);
 });

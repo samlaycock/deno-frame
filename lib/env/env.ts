@@ -2,13 +2,25 @@ import { dotenv } from "./deps.ts";
 import parsers from "./parsers.ts";
 import internalCache from "./internal_cache.ts";
 import { ENV_PARSERS } from "./constants.ts";
-import type { EnvParser, EnvParserOptions, EnvValues } from "./types.d.ts";
+import type {
+  EnvOptions,
+  EnvParser,
+  EnvParserOptions,
+  EnvValues,
+} from "./types.d.ts";
 
 await dotenv.configAsync({ export: true });
 
-export function config(values: EnvValues): void {
+export async function load(
+  values: EnvValues,
+  options?: EnvOptions,
+): Promise<void> {
   if (typeof values !== "object" || Array.isArray(values)) {
     throw new Error("'values' must be an object");
+  }
+
+  if (typeof options?.driver === "object") {
+    await options.driver.load(values);
   }
 
   for (const [key, parser] of Object.entries(values)) {
@@ -197,4 +209,9 @@ export function unset(key: string): void {
   internalCache.delete(key.toUpperCase());
 }
 
-export default { config, get, set, unset };
+export default {
+  load,
+  get,
+  set,
+  delete: unset,
+};
