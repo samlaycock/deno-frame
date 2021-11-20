@@ -1,3 +1,9 @@
+ifdef module
+MODULE := $(module)
+else
+MODULE := *
+endif
+
 .PHONY: test
 
 lint:
@@ -7,19 +13,19 @@ fmt:
 	deno fmt --config=deno.json --check
 
 cache:
-	deno cache lib/**/*deps.ts
+	deno cache lib/$(MODULE)/*deps.ts
 
 test:
 	make test_clean
-	deno test --allow-all --fail-fast --coverage=.cov_profile lib/$(module)
+	deno test --allow-all --fail-fast --coverage=.cov_profile lib/$(MODULE)
 
 test_watch:
-	deno test --allow-all --fail-fast --watch lib/$(module)
+	deno test --allow-all --fail-fast --watch lib/$(MODULE)
 
 test_integration:
 	docker compose -f test/docker-compose.yml up -d
 	deno test --allow-all test/integration/**/*_test.ts
-	docker compose -f test/docker-compose.yml down
+	docker compose -f test/docker-compose.yml stop
 
 test_clean:
 	rm -rf ./.cov_profile
