@@ -25,7 +25,7 @@ test_watch:
 test_integration:
 	docker compose -f test/docker-compose.yml up -d
 	sleep 5
-	deno test --allow-all test/integration/**/*_test.ts
+	deno test --allow-all test/integration/**/$(MODULE)_test.ts
 	docker compose -f test/docker-compose.yml stop
 
 test_clean:
