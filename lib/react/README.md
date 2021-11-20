@@ -1,8 +1,8 @@
 # Frame React Module <!-- omit in toc -->
 
 The `Frame React Module` exports a pinned version of `React` (currently
-`17.0.2`), provided by [Skypack CDN](https://skypack.dev), for use to render
-`HTML` via `JSX`.
+`17.0.2`), provided by [esm.sh](https://esm.sh), for use to render `HTML` via
+`JSX`.
 
 ## Contents
 
