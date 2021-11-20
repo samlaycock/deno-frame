@@ -42,7 +42,7 @@ Deno.test({
       },
     });
 
-    await sleep(10 * 1000);
+    await sleep(5 * 1000);
     await queueController.stop();
 
     asserts.assertEquals(queueJobs, processed);
