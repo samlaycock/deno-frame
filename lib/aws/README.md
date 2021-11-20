@@ -1,8 +1,10 @@
 # Frame AWS Module <!-- omit in toc -->
 
-The `Frame AWS Module` exports pinned versions of [AWS SDK]() clients (and other
-providers for AWS services where necessary), provided by
-[esm.sh](https://esm.sh) and [Skypack CDN](https://skypack.dev).
+The `Frame AWS Module` exports pinned versions of
+[AWS SDK](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/index.html)
+clients (and other providers for AWS services where necessary), provided via a
+custom build of
+[AWS SDK v3](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/index.html).
 
 ## Contents
 
