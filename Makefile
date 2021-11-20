@@ -17,15 +17,15 @@ cache:
 
 test:
 	make test_clean
-	deno test --allow-all --fail-fast --coverage=.cov_profile lib/$(MODULE)
+	deno test --no-check --allow-all --fail-fast --coverage=.cov_profile lib/$(MODULE)
 
 test_watch:
-	deno test --allow-all --fail-fast --watch lib/$(MODULE)
+	deno test --no-check --allow-all --fail-fast --watch lib/$(MODULE)
 
 test_integration:
 	docker compose -f test/docker-compose.yml up -d
 	sleep 5
-	deno test --allow-all test/integration/**/$(MODULE)_test.ts
+	deno test --no-check --allow-all test/integration/**/$(MODULE)_test.ts
 	docker compose -f test/docker-compose.yml stop
 
 test_clean:

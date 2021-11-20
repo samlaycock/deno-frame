@@ -4,3 +4,6 @@
 
 # Deno test coverage files
 .cov_profile/
+
+# Node
+node_modules

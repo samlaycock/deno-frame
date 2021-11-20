@@ -40,8 +40,8 @@ function createSQSClient() {
       : undefined,
     region: region as string | undefined,
     credentials: undefined as undefined | {
-      accessKeyId?: string;
-      secretAccessKey?: string;
+      accessKeyId: string;
+      secretAccessKey: string;
     },
   };
 
@@ -121,13 +121,9 @@ async function consumeQueue(
           .reduce<
             Record<string, string | number>
           >((result, [key, value]) => {
-            result[key] =
-              (value as Record<string, unknown>)?.DataType === "Number"
-                ? parseInt(
-                  (value as Record<string, unknown>)?.StringValue as string,
-                  10,
-                )
-                : (value as Record<string, unknown>)?.StringValue as string;
+            result[key] = value.DataType === "Number"
+              ? parseInt(value.StringValue, 10)
+              : value.StringValue;
 
             return result;
           }, {});
@@ -241,7 +237,7 @@ async function createQueueJob(
 
   await client.sendMessage({
     QueueUrl: queueUrl,
-    MessageBody: queueBody,
+    MessageBody: queueBody as string,
     MessageAttributes: sqsMetadata,
   });
 }

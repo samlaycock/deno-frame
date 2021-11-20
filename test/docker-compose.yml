@@ -17,15 +17,16 @@ services:
   #   container_name: frame_sns
   #   ports:
   #     - 9911:9911
-  s3:
-    image: minio/minio:RELEASE.2021-11-09T03-21-45Z
-    container_name: frame_s3
-    ports:
-      - 9000:9000
-      - 9001:9001
-    environment:
-      - MINIO_ACCESS_KEY=access_key
-      - MINIO_SECRET_KEY=secret_key
+  # s3:
+  #   image: minio/minio:RELEASE.2021-11-09T03-21-45Z
+  #   container_name: frame_s3
+  #   ports:
+  #     - 9000:9000
+  #     - 9001:9001
+  #   environment:
+  #     - MINIO_ACCESS_KEY=access_key
+  #     - MINIO_SECRET_KEY=secret_key
+  #   command: server /data
   # kinesis:
   #   image: saidsef/aws-kinesis-local:v2021.11
   #   container_name: frame_kinesis
