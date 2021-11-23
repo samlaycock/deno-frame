@@ -58,5 +58,5 @@ client as follows:
 ```javascript
 import SQS from "https://deno.land/x/frame/aws/sqs.ts";
 
-const sqsClient = new AWS.SQS();
+const sqsClient = new SQS();
 ```
