@@ -4,7 +4,7 @@
   "description": "Custom build for browser compatible AWS SDK distro",
   "private": true,
   "scripts": {
-    "build": "npx esbuild --bundle --format=esm --platform=browser index.mjs --outfile=../lib/aws/_build/aws.mjs"
+    "build:aws": "npx esbuild --bundle --minify --format=esm --platform=browser ./aws/*.js --outdir=../lib/aws/_build"
   },
   "license": "MIT",
   "dependencies": {

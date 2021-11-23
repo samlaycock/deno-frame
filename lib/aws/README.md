@@ -22,6 +22,15 @@ import AWS from "https://deno.land/x/frame/aws/mod.ts";
 
 // or
 import { AWS } from "https://deno.land/x/frame/aws/mod.ts";
+
+// or
+import { S3 } from "https://deno.land/x/frame/aws/mod.ts";
+
+// or 
+import S3 from "https://deno.land/x/frame/aws/s3.ts";
+
+// or
+import { S3 } from "https://deno.land/x/frame/aws/s3.ts";
 ```
 
 You can then use a ([supported](#supported-clients)) client from the imported
@@ -30,7 +39,12 @@ module, e.g.:
 ```javascript
 import AWS from "https://deno.land/x/frame/aws/mod.ts";
 
-const sqsClient = new AWS.SQS();
+const s3Client = new AWS.S3();
+
+// or
+import S3 from "https://deno.land/x/frame/aws/s3.ts";
+
+const s3Client = new S3();
 ```
 
 ## Supported clients
@@ -42,7 +56,7 @@ You can use the
 client as follows:
 
 ```javascript
-import AWS from "https://deno.land/x/frame/aws/mod.ts";
+import SQS from "https://deno.land/x/frame/aws/sqs.ts";
 
 const sqsClient = new AWS.SQS();
 ```

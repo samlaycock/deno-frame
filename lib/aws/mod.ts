@@ -1,18 +1,7 @@
-import { AWS } from "./deps.ts";
-import type {
-  AWSClientOptions,
-  AWSHTTPOptions,
-  SQSClient,
-  SQSClientConstructor,
-  SQSMessage,
-} from "./types.d.ts";
+import SQS from "./sqs.ts";
+
+const AWS = {
+  SQS,
+};
 
 export default AWS;
-export { AWS };
-export type {
-  AWSClientOptions,
-  AWSHTTPOptions,
-  SQSClient,
-  SQSClientConstructor,
-  SQSMessage,
-};

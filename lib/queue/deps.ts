@@ -1,4 +1,6 @@
 import env from "../env/mod.ts";
-import AWS from "../aws/mod.ts";
+import SQS from "../aws/sqs.ts";
+
+const AWS = { SQS };
 
 export { AWS, env };

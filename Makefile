@@ -23,10 +23,10 @@ test_watch:
 	deno test --no-check --allow-all --fail-fast --watch lib/$(MODULE)
 
 test_integration:
-	docker compose -f test/docker-compose.yml up -d
+	docker compose -p frame -f test/docker-compose.yml up -d
 	sleep 5
 	deno test --no-check --allow-all test/integration/**/$(MODULE)_test.ts
-	docker compose -f test/docker-compose.yml stop
+	docker compose -p frame -f test/docker-compose.yml stop
 
 test_clean:
 	rm -rf ./.cov_profile
@@ -46,3 +46,6 @@ test_full:
 	make test
 	make test_coverage
 	make test_coverage_report
+
+build_aws:
+	npm --prefix=build run build:aws
