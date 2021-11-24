@@ -41,4 +41,9 @@ jobs:
         run: deno cache --no-check lib/**/*deps.ts
 
       - name: Run tests
-        run: deno test --no-check --allow-all lib
+        run: deno test --no-check --allow-all --fail-fast --coverage=.cov_profile lib
+
+      - name: Upload code coverage
+        uses: codecov/codecov-action@v1
+        with:
+          files: ./cov_profile
