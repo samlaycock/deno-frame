@@ -1,4 +1,5 @@
 import { mock } from "../../dev_deps.ts";
+
 const consumeQueue = mock.spy();
 const createQueueJob = mock.spy();
 

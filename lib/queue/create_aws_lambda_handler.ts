@@ -33,7 +33,6 @@ export default function createAWSLambdaHandler(
 
       try {
         queueBody = JSON.parse(queueBody);
-        // deno-lint-ignore no-empty
       } catch (_) {}
 
       return {
@@ -61,7 +60,6 @@ export default function createAWSLambdaHandler(
         if (typeof onSuccess === "function") {
           await onSuccess(queueJob, queueContext);
         }
-        // deno-lint-ignore no-empty
       } catch (_) {}
     }
   };
