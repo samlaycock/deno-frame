@@ -57,6 +57,26 @@ function createSQSClient() {
   return client;
 }
 
+async function ensureQueue(queue: string) {
+  const client = createSQSClient();
+  let queueUrl;
+
+  if (!queueUrl) {
+    try {
+      ({ QueueUrl: queueUrl } = await client.getQueueUrl({ QueueName: queue }));
+    } catch (_) {
+      ({ QueueUrl: queueUrl } = await client.createQueue({
+        QueueName: queue,
+        // Attributes: {
+        //   FifoQueue: true,
+        // },
+      }));
+    }
+  }
+
+  return queueUrl;
+}
+
 async function consumeQueue(
   queue: string,
   options: ConsumeQueueOptions,
@@ -75,25 +95,7 @@ async function consumeQueue(
   let abortController: AbortController;
 
   if (!queueUrl) {
-    try {
-      abortController = new AbortController();
-
-      ({ QueueUrl: queueUrl } = await client.getQueueUrl(
-        { QueueName: queue },
-        { abortSignal: abortController.signal },
-      ));
-    } catch (_) {
-      try {
-        abortController = new AbortController();
-
-        ({ QueueUrl: queueUrl } = await client.createQueue(
-          { QueueName: queue },
-          { abortSignal: abortController.signal },
-        ));
-      } catch (error) {
-        console.error(error);
-      }
-    }
+    queueUrl = await ensureQueue(queue);
 
     QUEUE_URL_CACHE.set(queue, queueUrl);
   }
@@ -131,7 +133,6 @@ async function consumeQueue(
 
         try {
           queueJobBody = JSON.parse(queueJobBody as string);
-          // deno-lint-ignore no-empty
         } catch (_) {}
 
         const queueJob = {
@@ -166,7 +167,6 @@ async function consumeQueue(
             },
             { abortSignal: abortController.signal },
           );
-          // deno-lint-ignore no-empty
         } catch (_) {}
       }
 
@@ -200,17 +200,7 @@ async function createQueueJob(
   let queueBody = queueJob.body;
 
   if (!queueUrl) {
-    try {
-      ({ QueueUrl: queueUrl } = await client.getQueueUrl({ QueueName: queue }));
-    } catch (_) {
-      try {
-        ({ QueueUrl: queueUrl } = await client.createQueue({
-          QueueName: queue,
-        }));
-      } catch (error) {
-        console.error(error);
-      }
-    }
+    queueUrl = await ensureQueue(queue);
 
     QUEUE_URL_CACHE.set(queue, queueUrl);
   }
