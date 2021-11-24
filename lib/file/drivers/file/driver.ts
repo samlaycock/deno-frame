@@ -21,18 +21,14 @@ async function ensureDir(bucket: string): Promise<void> {
 }
 
 async function readFile(bucket: string, file: string): Promise<ReadableStream> {
-  try {
-    await ensureDir(bucket);
+  await ensureDir(bucket);
 
-    const dir = getDir();
-    const filePath = `${dir}/${bucket}/${file}`;
-    const fileReader = await Deno.open(filePath, { read: true });
-    const fileStream = streams.readableStreamFromReader(fileReader);
+  const dir = getDir();
+  const filePath = `${dir}/${bucket}/${file}`;
+  const fileReader = await Deno.open(filePath, { read: true });
+  const fileStream = streams.readableStreamFromReader(fileReader);
 
-    return fileStream;
-  } catch (error) {
-    throw error;
-  }
+  return fileStream;
 }
 
 async function writeFile(
@@ -41,42 +37,34 @@ async function writeFile(
   data: Uint8Array | ReadableStream<Uint8Array>,
   options?: WriteFileOptions,
 ): Promise<void> {
+  await ensureDir(bucket);
+
+  const dir = getDir();
+  const filePath = `${dir}/${bucket}/${file}`;
+
   try {
-    await ensureDir(bucket);
+    await Deno.create(filePath);
+  } catch (_) {}
 
-    const dir = getDir();
-    const filePath = `${dir}/${bucket}/${file}`;
+  const fileReader = await Deno.open(filePath, { write: true });
+  let fileData = data;
 
-    try {
-      await Deno.create(filePath);
-    } catch (_) {}
+  if (fileData instanceof ReadableStream) {
+    const fileDataReader = await streams.readerFromIterable(fileData);
 
-    const fileReader = await Deno.open(filePath, { write: true });
-    let fileData = data;
-
-    if (fileData instanceof ReadableStream) {
-      const fileDataReader = await streams.readerFromIterable(fileData);
-
-      fileData = await streams.readAll(fileDataReader);
-    }
-
-    await Deno.writeAll(fileReader, fileData as Uint8Array);
-  } catch (error) {
-    throw error;
+    fileData = await streams.readAll(fileDataReader);
   }
+
+  await Deno.writeAll(fileReader, fileData as Uint8Array);
 }
 
 async function deleteFile(bucket: string, file: string): Promise<void> {
-  try {
-    await ensureDir(bucket);
+  await ensureDir(bucket);
 
-    const dir = getDir();
-    const filePath = `${dir}/${bucket}/${file}`;
+  const dir = getDir();
+  const filePath = `${dir}/${bucket}/${file}`;
 
-    await Deno.remove(filePath);
-  } catch (error) {
-    throw error;
-  }
+  await Deno.remove(filePath);
 }
 
 export default {
