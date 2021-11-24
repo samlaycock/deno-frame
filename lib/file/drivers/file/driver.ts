@@ -6,9 +6,15 @@ await env.load({
   FILE_DIR: "string",
 });
 
+function getDir(): string {
+  const dir = env.get("FRAME_FILE_DIR") || env.get("FILE_DIR") || "tmp";
+
+  return dir as string;
+}
+
 async function ensureDir(bucket: string): Promise<void> {
   try {
-    const dir = env.get("FRAME_FILE_DIR") || env.get("FILE_DIR") || "temp";
+    const dir = getDir();
 
     await Deno.mkdir(`${dir}/${bucket}`);
   } catch (_) {}
@@ -18,7 +24,7 @@ async function readFile(bucket: string, file: string): Promise<ReadableStream> {
   try {
     await ensureDir(bucket);
 
-    const dir = env.get("FRAME_FILE_DIR") || env.get("FILE_DIR") || "temp";
+    const dir = getDir();
     const filePath = `${dir}/${bucket}/${file}`;
     const fileReader = await Deno.open(filePath, { read: true });
     const fileStream = streams.readableStreamFromReader(fileReader);
@@ -38,7 +44,7 @@ async function writeFile(
   try {
     await ensureDir(bucket);
 
-    const dir = env.get("FRAME_FILE_DIR") || env.get("FILE_DIR") || "temp";
+    const dir = getDir();
     const filePath = `${dir}/${bucket}/${file}`;
 
     try {
@@ -64,7 +70,7 @@ async function deleteFile(bucket: string, file: string): Promise<void> {
   try {
     await ensureDir(bucket);
 
-    const dir = env.get("FRAME_FILE_DIR") || env.get("FILE_DIR") || "temp";
+    const dir = getDir();
     const filePath = `${dir}/${bucket}/${file}`;
 
     await Deno.remove(filePath);
