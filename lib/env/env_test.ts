@@ -49,8 +49,8 @@ Deno.test("env.load() should set the correct value to the cache", async () => {
   Deno.env.delete(key2);
 });
 
-Deno.test("env.load() should throw when given in invalid values argument", () => {
-  asserts.assertThrowsAsync(
+Deno.test("env.load() should throw when given in invalid values argument", async () => {
+  await asserts.assertRejects(
     () =>
       env.load(
         ("invalid" as unknown) as Record<string, EnvParser | EnvParserOptions>,
@@ -58,7 +58,7 @@ Deno.test("env.load() should throw when given in invalid values argument", () =>
     Error,
     "'values' must be an object",
   );
-  asserts.assertThrowsAsync(
+  await asserts.assertRejects(
     () =>
       env.load(
         (1 as unknown) as Record<string, EnvParser | EnvParserOptions>,
@@ -66,7 +66,7 @@ Deno.test("env.load() should throw when given in invalid values argument", () =>
     Error,
     "'values' must be an object",
   );
-  asserts.assertThrowsAsync(
+  await asserts.assertRejects(
     () =>
       env.load(
         (true as unknown) as Record<string, EnvParser | EnvParserOptions>,
@@ -74,7 +74,7 @@ Deno.test("env.load() should throw when given in invalid values argument", () =>
     Error,
     "'values' must be an object",
   );
-  asserts.assertThrowsAsync(
+  await asserts.assertRejects(
     () =>
       env.load(
         (["invalid"] as unknown) as Record<
@@ -87,20 +87,20 @@ Deno.test("env.load() should throw when given in invalid values argument", () =>
   );
 });
 
-Deno.test("env.load() should throw when passed an invalid parser argument", () => {
+Deno.test("env.load() should throw when passed an invalid parser argument", async () => {
   const key = "TEST";
   const value = "test";
 
   Deno.env.set(key, value);
 
-  asserts.assertThrowsAsync(
+  await asserts.assertRejects(
     () => env.load({ [key]: "invalid" as EnvParser }),
     Error,
     `Invalid 'parser' "invalid" for "${key}" (must be one of ${
       ENV_PARSERS.join(", ")
     })`,
   );
-  asserts.assertThrowsAsync(
+  await asserts.assertRejects(
     () => env.load({ [key]: { as: "invalid" as EnvParser } }),
     Error,
     `Invalid 'parser.as' "invalid" for "${key}" (must be one of ${
@@ -111,13 +111,13 @@ Deno.test("env.load() should throw when passed an invalid parser argument", () =
   Deno.env.delete(key);
 });
 
-Deno.test("env.load() should throw when an invalid value is parsed from environment variables", () => {
+Deno.test("env.load() should throw when an invalid value is parsed from environment variables", async () => {
   const key = "TEST";
   const value = "test";
 
   Deno.env.set(key, value);
 
-  asserts.assertThrowsAsync(
+  await asserts.assertRejects(
     () => env.load({ [key]: { as: "string", enum: ["other"] } }),
     Error,
     `"${key}" should be one of other`,
