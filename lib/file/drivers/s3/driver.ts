@@ -95,6 +95,7 @@ async function deleteFile(bucket: string, file: string): Promise<void> {
 
   try {
     await client.deleteObject({ Bucket: bucket, Key: file });
+    // deno-lint-ignore no-empty
   } catch (_) {}
 }
 

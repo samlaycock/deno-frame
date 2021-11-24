@@ -133,6 +133,7 @@ async function consumeQueue(
 
         try {
           queueJobBody = JSON.parse(queueJobBody as string);
+          // deno-lint-ignore no-empty
         } catch (_) {}
 
         const queueJob = {
@@ -167,6 +168,7 @@ async function consumeQueue(
             },
             { abortSignal: abortController.signal },
           );
+          // deno-lint-ignore no-empty
         } catch (_) {}
       }
 

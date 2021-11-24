@@ -17,6 +17,7 @@ async function ensureDir(bucket: string): Promise<void> {
     const dir = getDir();
 
     await Deno.mkdir(`${dir}/${bucket}`);
+    // deno-lint-ignore no-empty
   } catch (_) {}
 }
 
@@ -35,7 +36,6 @@ async function writeFile(
   bucket: string,
   file: string,
   data: Uint8Array | ReadableStream<Uint8Array>,
-  options?: WriteFileOptions,
 ): Promise<void> {
   await ensureDir(bucket);
 
@@ -44,6 +44,7 @@ async function writeFile(
 
   try {
     await Deno.create(filePath);
+    // deno-lint-ignore no-empty
   } catch (_) {}
 
   const fileReader = await Deno.open(filePath, { write: true });
@@ -55,7 +56,7 @@ async function writeFile(
     fileData = await streams.readAll(fileDataReader);
   }
 
-  await Deno.writeAll(fileReader, fileData as Uint8Array);
+  await streams.writeAll(fileReader, fileData as Uint8Array);
 }
 
 async function deleteFile(bucket: string, file: string): Promise<void> {
