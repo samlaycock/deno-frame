@@ -1,0 +1,3 @@
+ignore:
+  - "lib/aws/_build"
+  - "(sqs|s3|redis)/driver.ts"

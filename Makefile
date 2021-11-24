@@ -32,7 +32,7 @@ test_clean:
 	rm -rf ./.cov_profile
 
 test_coverage:
-	deno coverage .cov_profile --exclude="lib/aws/_build|(sqs|s3|redis)/driver.ts"
+	deno coverage --exclude="lib/aws/_build|(sqs|s3|redis)/driver.ts" .cov_profile
 
 test_coverage_generate:
 	deno coverage .cov_profile --lcov > .cov_profile/cov_profile.lcov
