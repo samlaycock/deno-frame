@@ -15,7 +15,7 @@ export function readFile(
   return fileDriver.readFile(bucket, file);
 }
 
-export async function writeFile(
+export function writeFile(
   bucket: string,
   file: string,
   data: Uint8Array | ReadableStream<Uint8Array>,

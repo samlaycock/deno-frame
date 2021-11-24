@@ -1,5 +1,4 @@
 import { env, streams } from "../../deps.ts";
-import type { WriteFileOptions } from "../../types.d.ts";
 
 await env.load({
   FRAME_FILE_DIR: "string",
