@@ -1,6 +1,14 @@
 version: "3.8"
 
 services:
+  localstack:
+    image: localstack/localstack:0.13.0
+    container_name: frame_aws
+    ports:
+      - 4566:4566
+    environment:
+      - SERVICES=dynamodb,kinesis,s3,ses,sns
+      - LS_LOG=trace
   # dynamodb:
   #   image: amazon/dynamodb-local:1.17.0
   #   container_name: frame_dynamodb
@@ -18,7 +26,7 @@ services:
   #   ports:
   #     - 9911:9911
   # s3:
-  #   image: minio/minio:RELEASE.2021-11-09T03-21-45Z
+  #   image: minio/minio:RELEASE.2021-11-03T03-36-36Z
   #   container_name: frame_s3
   #   ports:
   #     - 9000:9000
@@ -26,7 +34,15 @@ services:
   #   environment:
   #     - MINIO_ACCESS_KEY=access_key
   #     - MINIO_SECRET_KEY=secret_key
-  #   command: server /data
+  #   command: server /data --console-address ":9000"
+  # ses:
+  #   image: camjackson/aws-ses-local:latest
+  #   container_name: frame_ses
+  #   ports:
+  #     - 9001:9001
+  #   command: npm start -- --outputDir=/tmp
+  #   volumes:
+  #     - ./tmp:/tmp
   # kinesis:
   #   image: saidsef/aws-kinesis-local:v2021.11
   #   container_name: frame_kinesis
