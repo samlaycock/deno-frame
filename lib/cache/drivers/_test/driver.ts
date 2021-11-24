@@ -11,6 +11,7 @@ const unset = mock.spy((key) => {
 });
 
 export default {
+  name: "test",
   get,
   set,
   unset,

@@ -13,6 +13,7 @@ function unset(key: string): void {
 }
 
 export default {
+  name: "memory",
   get,
   set,
   unset,

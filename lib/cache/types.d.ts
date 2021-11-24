@@ -1,4 +1,5 @@
 export interface CacheDriver {
+  name: CacheDriverType | string;
   get: (key: string) => string | null | Promise<string | null>;
   set: (key: string, value: string) => void | Promise<void>;
   unset: (key: string) => void | Promise<void>;

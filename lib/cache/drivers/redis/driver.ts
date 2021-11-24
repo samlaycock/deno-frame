@@ -41,6 +41,7 @@ async function unset(key: string): Promise<void> {
 }
 
 export default {
+  name: "redis",
   get,
   set,
   unset,
