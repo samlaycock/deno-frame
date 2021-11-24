@@ -26,7 +26,7 @@ import { AWS } from "https://deno.land/x/frame/aws/mod.ts";
 // or
 import { S3 } from "https://deno.land/x/frame/aws/mod.ts";
 
-// or 
+// or
 import S3 from "https://deno.land/x/frame/aws/s3.ts";
 
 // or
