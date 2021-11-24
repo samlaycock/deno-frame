@@ -44,7 +44,7 @@ jobs:
         run: deno test --no-check --allow-all --fail-fast --coverage=.cov_profile lib
 
       - name: Compile code coverage report
-        run: deno coverage .cov_profile --lcov > .cov_profile/coverage.lcov
+        run: deno coverage --exclude="test\.(js|mjs|ts|jsx|tsx)|lib/aws/_build|(sqs|s3|redis)/driver\.ts" .cov_profile --lcov > .cov_profile/coverage.lcov
 
       - name: Upload code coverage report
         uses: codecov/codecov-action@v2
