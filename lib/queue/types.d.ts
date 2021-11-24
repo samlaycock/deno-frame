@@ -1,5 +1,5 @@
 export interface QueueDriver {
-  name: string;
+  name: QueueDriverType | string;
   consumeQueue: (
     queue: string,
     options: ConsumeQueueOptions,
