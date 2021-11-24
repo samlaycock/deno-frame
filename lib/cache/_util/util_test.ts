@@ -23,7 +23,7 @@ Deno.test("getCacheDriver() should return the correct driver when CACHE_DRIVER i
   env.delete("CACHE_DRIVER");
 });
 
-Deno.test("getCacheDriver() should return the correct driver when FRAME_CACHE_DRIVER and CACHE_DRIVER are not set", () => {
+Deno.test("getCacheDriver() should return the correct default driver when FRAME_CACHE_DRIVER and CACHE_DRIVER are not set", () => {
   env.delete("FRAME_CACHE_DRIVER");
   env.delete("CACHE_DRIVER");
 
