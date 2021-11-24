@@ -15,7 +15,7 @@ async function ensureDir(bucket: string): Promise<void> {
   try {
     const dir = getDir();
 
-    await Deno.mkdir(`${dir}/${bucket}`);
+    await Deno.mkdir(`${dir}/${bucket}`, { recursive: true });
     // deno-lint-ignore no-empty
   } catch (_) {}
 }

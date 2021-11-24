@@ -29,6 +29,9 @@ Deno.test({
 
     await asserts.assertRejects(() => fileDriver.readFile("test", "test.txt"));
 
+    await Deno.remove("./tmp/test");
+    await Deno.remove("./tmp");
+
     env.delete("FRAME_FILE_DRIVER");
     env.delete("FRAME_FILE_DIR");
   },
