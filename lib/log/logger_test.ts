@@ -190,6 +190,7 @@ Deno.test("logger.debug() should log correctly when given a namespace argument",
 });
 
 Deno.test("logger.debug() should use the given 'options.driver' instance", () => {
+  env.set("FRAME_LOG_DRIVER", "test");
   env.set("FRAME_LOG_LEVEL", "debug");
 
   const driver = {
@@ -198,13 +199,26 @@ Deno.test("logger.debug() should use the given 'options.driver' instance", () =>
   };
 
   debug("test", { driver });
+  debug("test", { driver: "test" });
+  debug("test");
 
   asserts.assertEquals(
     driver.log.calls[0]?.args,
     [`${DEBUG_PREFIX} -`, "test"],
   );
+  asserts.assertEquals(
+    testDriver.log.calls[0]?.args,
+    [`${DEBUG_PREFIX} -`, "test"],
+  );
+  // asserts.assertEquals(
+  //   testDriver.log.calls[1]?.args,
+  //   [`${DEBUG_PREFIX} -`, "test"],
+  // );
 
+  env.delete("FRAME_LOG_DRIVER");
   env.delete("FRAME_LOG_LEVEL");
+
+  testDriver.reset();
 });
 
 /* error() */
@@ -388,6 +402,7 @@ Deno.test("logger.error() should log correctly when given a namespace argument",
 });
 
 Deno.test("logger.error() should use the given 'options.driver' instance", () => {
+  env.set("FRAME_LOG_DRIVER", "test");
   env.set("FRAME_LOG_LEVEL", "error");
 
   const driver = {
@@ -396,13 +411,26 @@ Deno.test("logger.error() should use the given 'options.driver' instance", () =>
   };
 
   error("test", { driver });
+  error("test", { driver: "test" });
+  error("test");
 
   asserts.assertEquals(
     driver.log.calls[0]?.args,
     [`${ERROR_PREFIX} -`, "test"],
   );
+  asserts.assertEquals(
+    testDriver.log.calls[0]?.args,
+    [`${ERROR_PREFIX} -`, "test"],
+  );
+  // asserts.assertEquals(
+  //   testDriver.log.calls[1]?.args,
+  //   [`${ERROR_PREFIX} -`, "test"],
+  // );
 
+  env.delete("FRAME_LOG_DRIVER");
   env.delete("FRAME_LOG_LEVEL");
+
+  testDriver.reset();
 });
 
 /* info() */
@@ -586,6 +614,7 @@ Deno.test("logger.info() should log correctly when given a namespace argument", 
 });
 
 Deno.test("logger.info() should use the given 'options.driver' instance", () => {
+  env.set("FRAME_LOG_DRIVER", "test");
   env.set("FRAME_LOG_LEVEL", "info");
 
   const driver = {
@@ -594,13 +623,26 @@ Deno.test("logger.info() should use the given 'options.driver' instance", () => 
   };
 
   info("test", { driver });
+  info("test", { driver: "test" });
+  info("test");
 
   asserts.assertEquals(
     driver.log.calls[0]?.args,
     [`${INFO_PREFIX} -`, "test"],
   );
+  asserts.assertEquals(
+    testDriver.log.calls[0]?.args,
+    [`${INFO_PREFIX} -`, "test"],
+  );
+  // asserts.assertEquals(
+  //   testDriver.log.calls[1]?.args,
+  //   [`${INFO_PREFIX} -`, "test"],
+  // );
 
+  env.delete("FRAME_LOG_DRIVER");
   env.delete("FRAME_LOG_LEVEL");
+
+  testDriver.reset();
 });
 
 /* warn */
@@ -784,6 +826,7 @@ Deno.test("logger.warn() should log correctly when given a namespace argument", 
 });
 
 Deno.test("logger.warn() should use the given 'options.driver' instance", () => {
+  env.set("FRAME_LOG_DRIVER", "test");
   env.set("FRAME_LOG_LEVEL", "warn");
 
   const driver = {
@@ -792,11 +835,24 @@ Deno.test("logger.warn() should use the given 'options.driver' instance", () => 
   };
 
   warn("test", { driver });
+  warn("test", { driver: "test" });
+  warn("test");
 
   asserts.assertEquals(
     driver.log.calls[0]?.args,
     [`${WARN_PREFIX} -`, "test"],
   );
+  asserts.assertEquals(
+    testDriver.log.calls[0]?.args,
+    [`${WARN_PREFIX} -`, "test"],
+  );
+  // asserts.assertEquals(
+  //   testDriver.log.calls[1]?.args,
+  //   [`${WARN_PREFIX} -`, "test"],
+  // );
 
+  env.delete("FRAME_LOG_DRIVER");
   env.delete("FRAME_LOG_LEVEL");
+
+  testDriver.reset();
 });
