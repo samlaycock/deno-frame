@@ -41,10 +41,7 @@ async function writeFile(
   const dir = getDir();
   const filePath = `${dir}/${bucket}/${file}`;
 
-  try {
-    await Deno.create(filePath);
-    // deno-lint-ignore no-empty
-  } catch (_) {}
+  await Deno.create(filePath);
 
   const fileReader = await Deno.open(filePath, { write: true });
   let fileData = data;
