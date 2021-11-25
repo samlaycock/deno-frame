@@ -7,7 +7,7 @@ import type { EnvParser, EnvParserOptions } from "./types.d.ts";
 Deno.test("env.load() should set the correct value to the cache", async () => {
   const key1 = "TEST_1";
   const key2 = "TEST_2";
-  const key3 = "TEST_£";
+  const key3 = "TEST_3";
   const value1 = "test1";
   const value2 = "test2";
 
@@ -48,59 +48,6 @@ Deno.test("env.load() should set the correct value to the cache", async () => {
   Deno.env.delete(key2);
 });
 
-Deno.test("env.load() should throw when given in invalid values argument", async () => {
-  await asserts.assertRejects(
-    () =>
-      env.load(
-        ("invalid" as unknown) as Record<string, EnvParser | EnvParserOptions>,
-      ),
-    Error,
-    "'values' must be an object",
-  );
-  await asserts.assertRejects(
-    () =>
-      env.load(
-        (1 as unknown) as Record<string, EnvParser | EnvParserOptions>,
-      ),
-    Error,
-    "'values' must be an object",
-  );
-  await asserts.assertRejects(
-    () =>
-      env.load(
-        (true as unknown) as Record<string, EnvParser | EnvParserOptions>,
-      ),
-    Error,
-    "'values' must be an object",
-  );
-  await asserts.assertRejects(
-    () =>
-      env.load(
-        (["invalid"] as unknown) as Record<
-          string,
-          EnvParser | EnvParserOptions
-        >,
-      ),
-    Error,
-    "'values' must be an object",
-  );
-});
-
-Deno.test("env.load() should throw when an invalid value is parsed from environment variables", async () => {
-  const key = "TEST";
-  const value = "test";
-
-  Deno.env.set(key, value);
-
-  await asserts.assertRejects(
-    () => env.load({ [key]: { as: "string", enum: ["other"] } }),
-    Error,
-    `"${key}" should be one of other`,
-  );
-
-  Deno.env.delete(key);
-});
-
 Deno.test("env.load() should return the given default value if a value isn't set in environment variables", async () => {
   const key = "TEST";
   const value = "test";
@@ -127,6 +74,31 @@ Deno.test("env.load() should use the given 'options.driver' to preload environme
   );
 });
 
+Deno.test("env.load() should throw when an invalid value is parsed from environment variables", async () => {
+  const key = "TEST";
+  const value = "test";
+
+  Deno.env.set(key, value);
+
+  await asserts.assertRejects(
+    () => env.load({ [key]: { as: "string", enum: ["other"] } }),
+    Error,
+    `"${key}" should be one of other`,
+  );
+
+  Deno.env.delete(key);
+});
+
+Deno.test("env.load() should throw when a required value is not set in environment variables", async () => {
+  const key = "TEST";
+
+  await asserts.assertRejects(
+    () => env.load({ [key]: { as: "string", required: true } }),
+    Error,
+    `"${key}" is a required value`,
+  );
+});
+
 /* env.get() */
 Deno.test("env.get() should return the correct value for the given 'key' argument", () => {
   const key = "TEST";
@@ -150,29 +122,6 @@ Deno.test("env.get() should return the 'default' argument for the given 'key' ar
   asserts.assertEquals(res, value, `Value returned from env.get() is ${res}`);
 });
 
-Deno.test("env.get() should throw when given an invalid 'key' argument", () => {
-  asserts.assertThrows(
-    () => env.get((1 as unknown) as string),
-    Error,
-    "'key' must be a string",
-  );
-  asserts.assertThrows(
-    () => env.get((true as unknown) as string),
-    Error,
-    "'key' must be a string",
-  );
-  asserts.assertThrows(
-    () => env.get(({} as unknown) as string),
-    Error,
-    "'key' must be a string",
-  );
-  asserts.assertThrows(
-    () => env.get(([] as unknown) as string),
-    Error,
-    "'key' must be a string",
-  );
-});
-
 /* env.set() */
 Deno.test("set() should set the given 'value' argument to the given 'key' argument", () => {
   const key = "TEST";
@@ -191,46 +140,6 @@ Deno.test("set() should set the given 'value' argument to the given 'key' argume
   );
 });
 
-Deno.test("env.set() should throw when given an invalid 'key' argument", () => {
-  const value = "test";
-
-  asserts.assertThrows(
-    () => env.set((1 as unknown) as string, value),
-    Error,
-    "'key' must be a string",
-  );
-  asserts.assertThrows(
-    () => env.set((true as unknown) as string, value),
-    Error,
-    "'key' must be a string",
-  );
-  asserts.assertThrows(
-    () => env.set(({} as unknown) as string, value),
-    Error,
-    "'key' must be a string",
-  );
-  asserts.assertThrows(
-    () => env.set(([] as unknown) as string, value),
-    Error,
-    "'key' must be a string",
-  );
-});
-
-Deno.test("env.set() should throw when given an invalid 'value' argument", () => {
-  const key = "TEST";
-
-  asserts.assertThrows(
-    () => env.set(key, undefined),
-    Error,
-    "'value' must be string, number, boolean, object, Array, RegExp or URL",
-  );
-  asserts.assertThrows(
-    () => env.set(key, null),
-    Error,
-    "'value' must be string, number, boolean, object, Array, RegExp or URL",
-  );
-});
-
 /* env.unset() */
 Deno.test("env.delete() should delete the given 'key' argument", () => {
   const key = "TEST";
@@ -242,5 +151,9 @@ Deno.test("env.delete() should delete the given 'key' argument", () => {
 
   env.unset(key);
 
-  asserts.assertEquals(env.get(key), undefined);
+  asserts.assertEquals(
+    internalCache.get(key),
+    undefined,
+    `internalCache value for "${key}" is ${internalCache.get(key)}`,
+  );
 });
