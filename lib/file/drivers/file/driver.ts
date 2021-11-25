@@ -6,7 +6,7 @@ await env.load({
 });
 
 function getDir(): string {
-  const dir = env.get("FRAME_FILE_DIR") || env.get("FILE_DIR") || "tmp";
+  const dir = env.get("FRAME_FILE_DIR") || env.get("FILE_DIR") || "./tmp";
 
   return dir as string;
 }
