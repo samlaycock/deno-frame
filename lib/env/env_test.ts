@@ -1,7 +1,6 @@
 import { asserts, mock } from "./dev_deps.ts";
 import env from "./env.ts";
 import internalCache from "./internal_cache.ts";
-import type { EnvParser, EnvParserOptions } from "./types.d.ts";
 
 /* env.load() */
 Deno.test("env.load() should set the correct value to the cache", async () => {

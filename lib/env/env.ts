@@ -79,6 +79,7 @@ export function get(key: string, defaultValue?: unknown): unknown {
 
 export function set(
   key: string,
+  // deno-lint-ignore ban-types
   value: string | number | boolean | object,
 ): unknown {
   internalCache.set(key.toUpperCase(), value);
