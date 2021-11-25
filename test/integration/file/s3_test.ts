@@ -32,11 +32,11 @@ Deno.test({
 
     await asserts.assertRejects(() => file.readFile("test", "test.txt"));
 
-    env.delete("FRAME_FILE_DRIVER");
-    env.delete("AWS_DEFAULT_REGION");
-    env.delete("AWS_ACCESS_KEY_ID");
-    env.delete("AWS_SECRET_ACCESS_KEY");
-    env.delete("S3_URL");
+    env.unset("FRAME_FILE_DRIVER");
+    env.unset("AWS_DEFAULT_REGION");
+    env.unset("AWS_ACCESS_KEY_ID");
+    env.unset("AWS_SECRET_ACCESS_KEY");
+    env.unset("S3_URL");
   },
   sanitizeResources: false,
   sanitizeOps: false,

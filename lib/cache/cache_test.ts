@@ -41,7 +41,7 @@ Deno.test("cache.get() should use the given 'options.driver'", async () => {
   asserts.assertEquals(testDriver.get.calls[1].args, [key]);
 
   testDriver.reset();
-  env.delete("FRAME_CACHE_DRIVER");
+  env.unset("FRAME_CACHE_DRIVER");
 });
 
 /* cache.set() */
@@ -79,7 +79,7 @@ Deno.test("cache.set() should use the given 'options.driver'", async () => {
   asserts.assertEquals(testDriver.set.calls[1].args, [key, value]);
 
   testDriver.reset();
-  env.delete("FRAME_CACHE_DRIVER");
+  env.unset("FRAME_CACHE_DRIVER");
 });
 
 /* cache.unset() */
@@ -120,5 +120,5 @@ Deno.test("cache.unset() should use the given 'options.driver'", async () => {
   asserts.assertEquals(driver.unset.calls[0].args, [key]);
 
   testDriver.reset();
-  env.delete("FRAME_CACHE_DRIVER");
+  env.unset("FRAME_CACHE_DRIVER");
 });

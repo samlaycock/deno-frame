@@ -63,7 +63,7 @@ Deno.test("queue.consumeQueue() should call the given 'option.driver's consumeQu
     options3,
   ]);
 
-  env.delete("FRAME_QUEUE_DRIVER");
+  env.unset("FRAME_QUEUE_DRIVER");
 });
 
 Deno.test("queue.consumeQueue() should call 'options.context' if it is a function", async () => {
@@ -127,5 +127,5 @@ Deno.test("queue.createQueueJob() should call the given 'option.driver's createQ
     queueJob,
   ]);
 
-  env.delete("FRAME_QUEUE_DRIVER");
+  env.unset("FRAME_QUEUE_DRIVER");
 });

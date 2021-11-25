@@ -32,8 +32,8 @@ Deno.test({
     await Deno.remove("./tmp/test");
     await Deno.remove("./tmp");
 
-    env.delete("FRAME_FILE_DRIVER");
-    env.delete("FRAME_FILE_DIR");
+    env.unset("FRAME_FILE_DRIVER");
+    env.unset("FRAME_FILE_DIR");
   },
   sanitizeResources: false,
   sanitizeOps: false,

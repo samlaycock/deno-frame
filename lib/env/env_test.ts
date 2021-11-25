@@ -1,7 +1,6 @@
 import { asserts, mock } from "./dev_deps.ts";
 import env from "./env.ts";
 import internalCache from "./internal_cache.ts";
-import { ENV_PARSERS } from "./constants.ts";
 import type { EnvParser, EnvParserOptions } from "./types.d.ts";
 
 /* env.load() */
@@ -85,30 +84,6 @@ Deno.test("env.load() should throw when given in invalid values argument", async
     Error,
     "'values' must be an object",
   );
-});
-
-Deno.test("env.load() should throw when passed an invalid parser argument", async () => {
-  const key = "TEST";
-  const value = "test";
-
-  Deno.env.set(key, value);
-
-  await asserts.assertRejects(
-    () => env.load({ [key]: "invalid" as EnvParser }),
-    Error,
-    `Invalid 'parser' "invalid" for "${key}" (must be one of ${
-      ENV_PARSERS.join(", ")
-    })`,
-  );
-  await asserts.assertRejects(
-    () => env.load({ [key]: { as: "invalid" as EnvParser } }),
-    Error,
-    `Invalid 'parser.as' "invalid" for "${key}" (must be one of ${
-      ENV_PARSERS.join(", ")
-    })`,
-  );
-
-  Deno.env.delete(key);
 });
 
 Deno.test("env.load() should throw when an invalid value is parsed from environment variables", async () => {
@@ -256,7 +231,7 @@ Deno.test("env.set() should throw when given an invalid 'value' argument", () =>
   );
 });
 
-/* env.delete() */
+/* env.unset() */
 Deno.test("env.delete() should delete the given 'key' argument", () => {
   const key = "TEST";
   const value = "test";
@@ -265,7 +240,7 @@ Deno.test("env.delete() should delete the given 'key' argument", () => {
 
   asserts.assertEquals(env.get(key), value);
 
-  env.delete(key);
+  env.unset(key);
 
   asserts.assertEquals(env.get(key), undefined);
 });

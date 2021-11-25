@@ -47,11 +47,11 @@ Deno.test({
 
     asserts.assertEquals(queueJobs, processed);
 
-    env.delete("FRAME_QUEUE_DRIVER");
-    env.delete("AWS_DEFAULT_REGION");
-    env.delete("AWS_ACCESS_KEY_ID");
-    env.delete("AWS_SECRET_ACCESS_KEY");
-    env.delete("SQS_URL");
+    env.unset("FRAME_QUEUE_DRIVER");
+    env.unset("AWS_DEFAULT_REGION");
+    env.unset("AWS_ACCESS_KEY_ID");
+    env.unset("AWS_SECRET_ACCESS_KEY");
+    env.unset("SQS_URL");
   },
   sanitizeResources: false,
   sanitizeOps: false,

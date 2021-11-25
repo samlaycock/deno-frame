@@ -10,7 +10,7 @@ Deno.test("getQueueDriver() should return the correct driver when FRAME_QUEUE_DR
 
   asserts.assertEquals(result, "test");
 
-  env.delete("FRAME_QUEUE_DRIVER");
+  env.unset("FRAME_QUEUE_DRIVER");
 });
 
 Deno.test("getQueueDriver() should return the correct driver when QUEUE_DRIVER is set", () => {
@@ -20,7 +20,7 @@ Deno.test("getQueueDriver() should return the correct driver when QUEUE_DRIVER i
 
   asserts.assertEquals(result, "test");
 
-  env.delete("QUEUE_DRIVER");
+  env.unset("QUEUE_DRIVER");
 });
 
 Deno.test("getQueueDriver() should return the correct default driver when FRAME_QUEUE_DRIVER and QUEUE_DRIVER are not set", () => {

@@ -29,14 +29,6 @@ export async function load(
     let parsedValue;
 
     if (typeof parser === "string") {
-      if (!ENV_PARSERS.includes(parser as string)) {
-        throw new Error(
-          `Invalid 'parser' "${parser}" for "${key}" (must be one of ${
-            ENV_PARSERS.join(", ")
-          })`,
-        );
-      }
-
       if (typeof rawValue === "undefined") {
         parsedValue = rawValue;
       } else {
@@ -59,14 +51,6 @@ export async function load(
         required,
         ...options
       } = parser;
-
-      if (!ENV_PARSERS.includes(parserType as string)) {
-        throw new Error(
-          `Invalid 'parser.as' "${parserType}" for "${key}" (must be one of ${
-            ENV_PARSERS.join(", ")
-          })`,
-        );
-      }
 
       if (typeof rawValue === "undefined") {
         parsedValue = typeof defaultValue !== "undefined"
@@ -112,14 +96,6 @@ export function get(
 
   if (typeof value === "undefined" && options?.parse) {
     if (typeof options.parse === "string") {
-      if (!ENV_PARSERS.includes(options.parse as string)) {
-        throw new Error(
-          `Invalid 'parser' "${options.parse}" for "${key}" (must be one of ${
-            ENV_PARSERS.join(", ")
-          })`,
-        );
-      }
-
       const parserFunc = `as${
         (options.parse as string).charAt(0).toUpperCase()
       }${(options.parse as string).slice(1)}`;
@@ -140,14 +116,6 @@ export function get(
       default: defaultValue,
       ...parserOptions
     } = options.parse;
-
-    if (!ENV_PARSERS.includes(parserType as string)) {
-      throw new Error(
-        `Invalid 'parser.as' "${parserType}" for "${key}" (must be one of ${
-          ENV_PARSERS.join(", ")
-        })`,
-      );
-    }
 
     if (typeof value !== "undefined") {
       return typeof defaultValue !== "undefined" ? defaultValue : undefined;
@@ -213,5 +181,5 @@ export default {
   load,
   get,
   set,
-  delete: unset,
+  unset,
 };
